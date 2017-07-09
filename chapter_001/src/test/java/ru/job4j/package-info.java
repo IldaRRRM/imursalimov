@@ -1,5 +1,5 @@
 /**
-*Package for class TestCalculator
+*Package for class TestCalculator.
 *
 * @author Ildar Mursalimov (mailto:Ildarrr91@mail.ru)
 * @version 1

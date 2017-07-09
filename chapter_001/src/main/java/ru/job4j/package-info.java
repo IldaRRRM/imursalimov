@@ -1,8 +1,9 @@
+
 /**
-*Package for calculate task
+*Package for calculate task.
 *
 * @author Ildar Mursalimov (mailto:Ildarrr91@mail.ru)
 * @version 1
 * @since 09.07.2017
 */
-package ru.job4j;
+	package ru.job4j;

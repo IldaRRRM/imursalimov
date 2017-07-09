@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 /**
 * Test.
 *
-* @author IldarMurs 
+* @author IldarMurs
 * @version $Id$
 * @since 09.07.2017
 */
