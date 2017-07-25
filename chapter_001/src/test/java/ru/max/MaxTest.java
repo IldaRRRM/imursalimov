@@ -28,4 +28,13 @@ public class MaxTest {
     int result = maxim.max(2, 1);
     assertThat(result, is(2));
 	}
+	/**
+	*Method maxOfThree - test method max3.
+	*/
+	@Test
+	public void maxOfThree() {
+	Max maxi = new Max();
+	int result = maxi.max3(5, 2, 1);
+	assertThat(result, is(5));
+	}
 }
