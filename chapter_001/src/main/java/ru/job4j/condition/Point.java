@@ -20,6 +20,7 @@ public class Point {
 		this.x = x;
 		this.y = y;
 	}
+
 	/**
 	*Getter for x.
 	*@return return x.
@@ -41,9 +42,6 @@ public class Point {
 	*@return - return true.
 	*/
 	public boolean is(int a, int b) {
-		if (this.y == a * this.x + b) {
-			return true;
-		}
-	return false;
+		return this.y == a * this.x + b;
 	}
 }

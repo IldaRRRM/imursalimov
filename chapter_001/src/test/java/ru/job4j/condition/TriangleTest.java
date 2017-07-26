@@ -1,6 +1,6 @@
 package ru.job4j.condition;
 
-//import org.junit.Test;
+import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
@@ -11,6 +11,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
  /**
  *method whenAreaSetThreePointsThenTriangleArea calculates area of Triangle with 3 points.
  */
+ @Test
  public void whenAreaSetThreePointsThenTriangleArea() {
     Point a = new Point(0, 0);
     Point b = new Point(0, 2);
@@ -27,6 +28,7 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
  /**
  *method possibleTriangle shows, that can we build the triangle throws this points.
  */
+  @Test
   public void possibleTriangle() {
   	Point a = new Point(0, 0);
   	Point b = new Point(2, 0);
@@ -37,6 +39,5 @@ import static org.hamcrest.number.IsCloseTo.closeTo;
   	boolean expected = false;
   	assertThat(result, is(expected));
   }
-
 }
 
