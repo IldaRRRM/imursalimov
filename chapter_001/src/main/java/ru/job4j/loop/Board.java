@@ -17,9 +17,7 @@ class Board {
 				sb.append(System.getProperty("line.separator"));
 			}
 			for (int j = 0; j < width; j++) {
-				if (j % 2 == 0 && i % 2 == 0) {
-					sb.append("x");
-				} else if (i > 0 && i % 2 != 0 && j % 2 != 0) {
+				if ((j + i) % 2 == 0) {
 					sb.append("x");
 				} else {
 					sb.append(" ");
