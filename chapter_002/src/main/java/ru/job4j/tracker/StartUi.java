@@ -68,21 +68,21 @@ public class StartUi {
 
     /**
      * @param choice - param for working with our menu.
-     *               method treatment is used for select items in our menu.
+     * method treatment is used for select items in our menu.
      */
     public void treatment(byte choice) {
         if (choice == this.add) {
             createItem();
         } else if (choice == this.show) {
-
+            System.out.println();
         } else if (choice == this.edit) {
-
+            System.out.println();
         } else if (choice == this.delete) {
-
+            System.out.println();
         } else if (choice == this.findItByID) {
             findItemById();
         } else if (choice == this.findByName) {
-
+            System.out.println();
         } else if (choice == this.exit) {
             this.choice = exit;
         }
