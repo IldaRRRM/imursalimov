@@ -1,50 +1,68 @@
 package ru.job4j.tracker;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
 /**
  * Public class StartUi is using for start of our tracker programm.
  */
 public class StartUi {
+
+    /**
+     * private field input is used for read values.
+     */
+
+    private Input input;
+    /**
+     * @param input - recieved input.
+     * @param tracker - recieved tracker.
+     */
+    StartUi(Input input, Tracker tracker) {
+        this.tracker = tracker;
+        this.input = input;
+    }
+    /**
+     *m - is used for "while" dynamic menu.
+     */
+    private boolean m = true;
     /**
      * object tracker is used for store applications.
      */
-    private Tracker tracker = new Tracker();
+    private Tracker tracker;
     /**
      * The variable choice  is used to select in the menu.
      */
-    private byte choice;
+    private String choice;
     /*
      *                      ****Constants, which used in the Menu***
      */
     /**
      * add - add to the tracker.
      */
-    private final byte add = 0;
+    private final String add = "0";
     /**
      * show - show all items.
      */
-    private final byte show = 1;
+    private final String show = "1";
     /**
      * edit - edit the item.
      */
-    private final byte edit = 2;
+    private final String edit = "2";
     /**
      * delete delete the item.
      */
-    private final byte delete = 3;
+    private final String delete = "3";
     /**
      * findItById - find item by Id.
      */
-    private final byte findItByID = 4;
+    private final String findItByID = "4";
     /**
      * findByName - find item by Name.
      */
-    private final byte findByName = 5;
+    private final String findByName = "5";
     /**
      * exit - exit from programm.
      */
-    private final byte exit = 6;
+    private final String exit = "6";
 
 
     /**
@@ -60,9 +78,9 @@ public class StartUi {
     /**
      * @return - return choice for working with our menu.
      */
-    public byte choice() {
-        Scanner scanner = new Scanner(System.in);
-        this.choice = scanner.nextByte();
+    public String choice() {
+        //Scanner scanner = new Scanner(System.in);
+        this.choice = this.input.ask("Enter the item for menu"); //scanner.nextLine();
         return this.choice;
     }
 
@@ -70,21 +88,21 @@ public class StartUi {
      * @param choice - param for working with our menu.
      * method treatment is used for select items in our menu.
      */
-    public void treatment(byte choice) {
-        if (choice == this.add) {
+    public void treatment(String choice) {
+        if (choice.equals(this.add)) {
             createItem();
-        } else if (choice == this.show) {
+        } else if (choice.equals(this.show)) {
             System.out.println();
-        } else if (choice == this.edit) {
+        } else if (choice.equals(this.edit)) {
             System.out.println();
-        } else if (choice == this.delete) {
+        } else if (choice.equals(this.delete)) {
             System.out.println();
-        } else if (choice == this.findItByID) {
+        } else if (choice.equals(this.findItByID)) {
             findItemById();
-        } else if (choice == this.findByName) {
+        } else if (choice.equals(this.findByName)) {
             System.out.println();
-        } else if (choice == this.exit) {
-            this.choice = exit;
+        } else if (choice.equals(this.exit)) {
+            this.m = false;
         }
     }
 
@@ -92,9 +110,9 @@ public class StartUi {
      * method createItem is used for creating and add to our tracker.
      */
     public void createItem() {
-        ConsoleInput cons = new ConsoleInput();
-        String answerName = cons.ask("Please, enter the name: ");
-        String answerDesc = cons.ask("Please, enter the description: ");
+        //ConsoleInput cons = new ConsoleInput();
+        String answerName = input.ask("Please, enter the name: ");
+        String answerDesc = input.ask("Please, enter the description: ");
         String id = "";
         Item item = new Item(answerName, answerDesc, id);
         this.tracker.add(item);
@@ -105,8 +123,8 @@ public class StartUi {
      * method findItemById is used for searching applications by id.
      */
     public void findItemById() {
-        ConsoleInput cons = new ConsoleInput();
-        String answerId = cons.ask("Please, enter the id of application: ");
+        //ConsoleInput cons = new ConsoleInput();
+        String answerId = this.input.ask("Please, enter the id of application: ");
         System.out.println("The name is: " + this.tracker.findById(answerId).getName() + "\n" + "Description is: "
                 + this.tracker.findById(answerId).getDesc() + "\n" + "id is: "
                 + this.tracker.findById(answerId).getId());
@@ -116,7 +134,7 @@ public class StartUi {
      * method dynamicMenu is used for start dynamic menu.
      */
     public void dynamicMenu() {
-        while (this.choice != this.exit) {
+        while (m) {
             printMenu();
             treatment(choice());
         }
@@ -126,9 +144,14 @@ public class StartUi {
      * @param args - args.
      * method main - point of start.
      */
+    /*
     public static void main(String[] args) {
-        StartUi start = new StartUi();
+        Input input = new StubInput(new String[] {"0","desc","desc",});
+        Tracker tracker = new Tracker();
+        StartUi start = new StartUi(input, tracker);
         start.dynamicMenu();
     }
+    */
+
 }
 
