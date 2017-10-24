@@ -14,7 +14,7 @@ public class StubInputTest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[] {"0", "item", "desc", "6"});
+        Input input = new StubInput(new String[] {"1", "item", "desc", "7"});
         StartUi start = new StartUi(input, tracker);
         start.dynamicMenu();
         assertThat(tracker.findAll()[0].getName(), is("item"));
@@ -28,7 +28,7 @@ public class StubInputTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test name", "desc", "23");
         tracker.add(item);
-        Input input = new StubInput(new String[] {"4", item.getId(), "6"});
+        Input input = new StubInput(new String[] {"5", item.getId(), "7"});
         StartUi start = new StartUi(input, tracker);
         start.dynamicMenu();
         assertThat(tracker.findById(item.getId()).getName(), is("test name"));

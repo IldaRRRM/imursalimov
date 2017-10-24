@@ -38,6 +38,12 @@ public class Item {
 	}
 
 	/**
+	 * empty constructor.
+	 */
+	public Item() {
+
+	}
+	/**
 	 *
 	 * @param name - name;
 	 * @param desc - description;
