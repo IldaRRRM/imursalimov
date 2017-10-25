@@ -9,4 +9,12 @@ package ru.job4j.tracker;
 	 * @return - return answer.
 	 */
 		String ask(String question);
+
+	/**
+	 * overload method ask.
+	 * @param question - question.
+	 * @param range - range of menu.
+	 * @return - return key for menu.
+	 */
+		int ask(String question, int[] range);
 	}
