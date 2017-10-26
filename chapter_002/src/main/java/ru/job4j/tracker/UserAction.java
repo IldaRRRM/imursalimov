@@ -3,10 +3,11 @@ package ru.job4j.tracker;
 *public interface UserAction is used for store method, which used in Tracker application.
 */
 public interface UserAction {
+
 	/**
 	 * @return return number of interaction with our menu.
 	 */
-	int key();
+	//int key();
 
 	/**
 	 * method which includes user actions in the application.
