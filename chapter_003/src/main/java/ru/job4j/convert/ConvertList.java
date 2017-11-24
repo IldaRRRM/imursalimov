@@ -59,4 +59,19 @@ public class ConvertList {
         }
         return returnArr;
     }
+
+    /**
+     * received List, which includes int arrays.
+     * @param list - received list with int arrays.
+     * @return - IntegerList.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> resultList = new ArrayList<>();
+        for (int[] i : list) {
+            for (int j : i) {
+                resultList.add(j);
+            }
+        }
+        return resultList;
+    }
 }

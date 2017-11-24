@@ -2,6 +2,7 @@ package ru.job4j.convert;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,5 +49,18 @@ public class ConvertListTest {
         int[][] expected = new int[][] {{1, 2, 3, 4, 5}, {6, 7, 8, 9, 0}};
         assertThat(result, is(expected));
     }
-
+    /**
+     *Input List with Integers[] output IntegerList.
+     */
+        @Test
+        public void receivedIntegerListOutListWithNumbers() {
+            ConvertList convertList = new ConvertList();
+            List<int[]> testList = new ArrayList<>();
+            testList.add(new int[] {1, 2, 3});
+            testList.add(new int[] {6, 7, 8, 12});
+            List<Integer> result =  convertList.convert(testList);
+            Integer[] addForTest = new Integer[] {1, 2, 3, 6, 7, 8, 12};
+            List<Integer> expected = Arrays.asList(addForTest);
+            assertThat(result, is(expected));
+        }
 }
