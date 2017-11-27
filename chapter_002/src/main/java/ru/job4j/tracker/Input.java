@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+
+import java.util.List;
+
 /**
  * interface Input - is used for input.
  */
@@ -16,5 +19,7 @@ package ru.job4j.tracker;
 	 * @param range - range of menu.
 	 * @return - return key for menu.
 	 */
-		int ask(String question, int[] range);
-	}
+		int ask(String question, List<Integer> range);
+
+
+}

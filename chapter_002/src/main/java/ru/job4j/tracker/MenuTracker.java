@@ -1,5 +1,9 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * public class MenuTracker realized menu for tracker application.
  */
@@ -11,7 +15,8 @@ public class MenuTracker {
     /**
      * range of menu items.
      */
-    private int[] range = new int[]{1, 2, 3, 4, 5, 6, 7};
+    private ArrayList<Integer> range = new ArrayList<>();
+    //private int[] range = new int[]{1, 2, 3, 4, 5, 6, 7};
     /**
      * private boolean exit - is used for "while" our menu.
      */
@@ -42,7 +47,7 @@ public class MenuTracker {
     /**
      * array actions is used for store items for our application.
      */
-    private UserAction[] actions = new UserAction[8];
+    private ArrayList<UserAction> actions = new ArrayList<>();
     /**
      * index - index for items in "answers".
      */
@@ -63,53 +68,48 @@ public class MenuTracker {
      * method fillAction fills our menu by items.
      */
     public void fillAction() {
-        addAction(new AddNewItem("Add new Item", 1));
-        addAction(new ShowAllItems("Show all Items", 2));
-        addAction(new EditItem("Edit item", 3));
-        addAction(new DeleteItem("Delete item", 4));
-        addAction(new FindItemById("Find items by id", 5));
-        addAction(new FindItemByName("Find items by name", 6));
-        addAction(new ExitFromProgram("Exit from program", 7));
+        actions.add(new AddNewItem("Add new Item", 1));
+        actions.add(new ShowAllItems("Show all Items", 2));
+        actions.add(new EditItem("Edit item", 3));
+        actions.add(new DeleteItem("Delete item", 4));
+        actions.add(new FindItemById("Find items by id", 5));
+        actions.add(new FindItemByName("Find items by name", 6));
+        actions.add(new ExitFromProgram("Exit from program", 7));
     }
 
+    /**
+     * Fill range of Menu.
+     */
+    public void fillRangeOfMenu() {
+        Integer[] menuKey = new Integer[] {1, 2, 3, 4, 5, 6, 7};
+        List<Integer> integerMenuKey = Arrays.asList(menuKey);
+        range.addAll(integerMenuKey);
+    }
     /**
      * Select key for working with menu.
      */
     public void select() {
         int key = input.ask("Select: ", range);
-        this.actions[key].execute(this.input, this.tracker);
-    }
-
-    /**
-     * add new action.
-     *
-     * @param action - new action.
-     */
-    public void addAction(UserAction action) {
-        this.actions[position++] = action;
-        if (8 == this.position) {
-            this.position = 1;
-        }
+        actions.get(key - 1).execute(this.input, this.tracker);
     }
 
     /**
      * method show shows our menu on the screen.
      */
     public void show() {
-        for (UserAction action : this.actions) {
-            if (action != null) {
-                System.out.println(action.info());
-            }
+        for (UserAction action : actions) {
+            System.out.println(action.info());
         }
     }
+
 
     /**
      * public class AddNewItem includes method, which adds items in tracker.
      */
     public class AddNewItem extends BaseAction {
         /**
-         * @param name
-         * @param key
+         * @param name - name.
+         * @param key - key.
          */
         public AddNewItem(String name, int key) {
             super(name, key);
@@ -148,8 +148,8 @@ public class MenuTracker {
             int index = 0;
             for (Item item : tracker.findAll()) {
                 index += 1;
-                System.out.println("index №" + index + "\n" + "The name is " + item.getName() + "\n"
-                        + "The id is" + item.getId());
+                System.out.println("index №" + index + "\n" + "The name is: " + item.getName() + "\n"
+                        + "The id is: " + item.getId());
             }
         }
     }
@@ -204,23 +204,28 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
             boolean l = true;
-            while (l) {
-                String answer = input.ask("Would you like to search by name or Id (Name/Id): ");
-                if (answer.equals("Name")) {
-                    String delName = input.ask("Enter the name of id, which you want to delete: ");
-                    tracker.delete(tracker.findByName(delName));
-                    System.out.println("The Item has been deleted.");
-                    break;
-                } else if (answer.equals("Id")) {
-                    String delId = input.ask("Enter the item id, which you want to delete: ");
-                    tracker.findById(delId);
-                    tracker.delete(tracker.findById(delId));
-                    System.out.println("The Item has been deleted.");
-                    break;
-                } else {
-                    System.out.println("Please, enter the correct answer.");
+            try {
+                while (l) {
+                    String answer = input.ask("Would you like to search by name or Id (Name/Id): ");
+                    if (answer.equals("Name")) {
+                        String delName = input.ask("Enter the name of id, which you want to delete: ");
+                        tracker.delete(tracker.findByName(delName));
+                        System.out.println("The Item has been deleted.");
+                        break;
+                    } else if (answer.equals("Id")) {
+                        String delId = input.ask("Enter the item id, which you want to delete: ");
+                        tracker.findById(delId);
+                        tracker.delete(tracker.findById(delId));
+                        System.out.println("The Item has been deleted.");
+                        break;
+                    } else {
+                        System.out.println("Please, enter the correct answer.");
+                    }
                 }
+            } catch (NullPointerException nfe) {
+                System.out.println("Item is not found");
             }
+
         }
     }
 
@@ -238,10 +243,14 @@ public class MenuTracker {
          * @param tracker - received tracker.
          */
         public void execute(Input input, Tracker tracker) {
-            String answerId = input.ask("Please, enter the id of application: ");
-            System.out.println("The name is: " + tracker.findById(answerId).getName() + "\n" + "Description is: "
-                    + tracker.findById(answerId).getDesc() + "\n" + "id is: "
-                    + tracker.findById(answerId).getId());
+            try {
+                String answerId = input.ask("Please, enter the id of application: ");
+                System.out.println("The name is: " + tracker.findById(answerId).getName() + "\n" + "Description is: "
+                        + tracker.findById(answerId).getDesc() + "\n" + "id is: "
+                        + tracker.findById(answerId).getId());
+            } catch (NullPointerException nfe) {
+                System.out.println("The item is not found");
+            }
         }
     }
 

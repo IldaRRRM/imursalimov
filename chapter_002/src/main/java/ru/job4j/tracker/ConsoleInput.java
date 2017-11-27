@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 /**
 *Class consoleInput is used for console Input.
@@ -25,7 +28,7 @@ public class ConsoleInput implements Input {
 	 * @param range - range of our menu.
 	 * @return - key for our menu.
 	 */
-	public int ask(String question, int[] range) {
+	public int ask(String question, List<Integer> range) {
 		int key = Integer.valueOf(this.ask(question));
 		boolean exist = false;
 		for (int value : range) {
@@ -39,6 +42,5 @@ public class ConsoleInput implements Input {
 		} else {
 			throw new MenuOutException("Out of range");
 		}
-
 	}
 }

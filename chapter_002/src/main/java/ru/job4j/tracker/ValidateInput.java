@@ -1,4 +1,7 @@
 package ru.job4j.tracker;
+
+import java.util.List;
+
 /**
  * public class ValidateInput includes method ask, which used for correct work with our tracker application.
  */
@@ -9,7 +12,7 @@ public class ValidateInput extends ConsoleInput {
      * @param range - range of our menu.
      * @return - return our key.
      */
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         boolean invalid = true;
         int value = -1;
         do {

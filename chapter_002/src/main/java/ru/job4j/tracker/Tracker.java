@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -9,7 +10,8 @@ public class Tracker {
 	/**
 	 * number of applications.
 	 */
-	private Item[] items = new Item[100];
+	private ArrayList<Item> items = new ArrayList<>();
+	//private Item[] items = new Item[100];
 	/**
 	 * position - position of item.
 	 */
@@ -26,10 +28,9 @@ public class Tracker {
 	 * @param item - received.
 	 * @return - new item.
 	 */
-	public Item add(Item item) {
-		item.setId(this.generateId());
-		this.items[position++] = item;
-		return item;
+	public void add(Item item) {
+		item.setId(generateId());
+		items.add(item);
 	}
 
 	/**
@@ -76,11 +77,9 @@ public class Tracker {
 	/**
 	 * @return list of items.
 	 */
-	public Item[] findAll() {
-		Item[] result = new Item[this.position];
-		for (int index = 0; index != this.position; index++) {
-			result[index] = this.items[index];
-		}
+	public ArrayList<Item> findAll() {
+		ArrayList<Item> result = new ArrayList<>();
+		result.addAll(items);
 		return result;
 	}
 
@@ -89,31 +88,24 @@ public class Tracker {
 	 */
 	public void update(Item item) {
 		String id = item.getId();
-		for (int index = 0; index != position; index++) {
-			if (items[index].getId().equals(id)) {
-				items[index] = item;
+		for (Item item1: items) {
+			if (item1.getId().equals(id)) {
+				items.set(items.indexOf(item1), item);
 				break;
 			}
 		}
 	}
 
 	/**
-	 * @param item - recieved param.
+	 * @param item - received param.
 	 */
 	public void delete(Item item) {
-		for (int index = 0; index != position; index++) {
-			if (items[index].getId().equals(item.getId())) {
-				items[index] = null;
+		for (Item item1 : items) {
+			if (item1.getId().equals(item.getId()) || item1.getName().equals(item.getName())) {
+				items.remove(item1);
 				break;
 			}
 
-		}
-		for (int index = 0; index != position; index++) {
-			if (items[index] == null) {
-				items[index] = items[position - 1];
-				position--;
-				break;
-			}
 		}
 	}
 }

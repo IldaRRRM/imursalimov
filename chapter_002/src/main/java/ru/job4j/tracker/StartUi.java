@@ -30,8 +30,9 @@ public class StartUi {
      */
     public void dynamicMenu() {
         MenuTracker menuTracker = new MenuTracker(input, tracker);
+        menuTracker.fillAction();
+        menuTracker.fillRangeOfMenu();
         while (menuTracker.getExit()) {
-            menuTracker.fillAction();
             menuTracker.show();
             menuTracker.select();
         }
