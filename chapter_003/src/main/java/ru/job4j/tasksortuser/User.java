@@ -21,8 +21,25 @@ class User implements Comparable<User> {
         this.name = name;
         this.age = age;
     }
+
     /**
-     * Ovverride compareTo.
+     * getter.
+     * @return - name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * getter.
+     * @return - age.
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * Override compareTo.
      * @param o - received user.
      * @return - return compare.
      */
@@ -38,5 +55,19 @@ class User implements Comparable<User> {
     @Override
     public String toString() {
         return "User: " + name + " Age " + age + System.lineSeparator();
+    }
+
+    /**
+     * Override equals.
+     * @param obj - received object (User).
+     * @return - boolean value.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        User user = (User) obj;
+        return name != null ? name.equals(user.name) && age == user.age : user.name == null;
     }
 }

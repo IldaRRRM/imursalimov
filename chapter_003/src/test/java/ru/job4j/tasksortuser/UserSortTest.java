@@ -30,4 +30,51 @@ public class UserSortTest {
                 new User("Boris", 40)));
         assertThat(result, is(expected));
     }
+
+    /**
+     *
+     */
+    @Test
+    public void whenWeWantSortReceivedListByNameAndAge() {
+        SortUser sortUser = new SortUser();
+        List<User> userList = new ArrayList<>();
+        userList.addAll(Arrays.asList(
+                new User("Сергей", 25),
+                new User("Иван", 30),
+                new User("Сергей", 20),
+                new User("Иван", 25)));
+        ArrayList<User> result = new ArrayList<>();
+        result.addAll(sortUser.sortByAllFriends(userList));
+        List<User> expected = new ArrayList<>();
+        expected.addAll(Arrays.asList(
+                new User("Иван", 25),
+                new User("Иван", 30),
+                new User("Сергей", 20),
+                new User("Сергей", 25)));
+        assertThat(result, is(expected));
+    }
+
+    /**
+     * sort by nameLength.
+     */
+    @Test
+    public void whenWeWantSortByNameLengthOurReceivedList() {
+        SortUser sortUser = new SortUser();
+        List<User> userList = new ArrayList<>();
+        userList.addAll(Arrays.asList(
+                new User("Сергей", 25),
+                new User("whatDoesTheFoxSay", 30),
+                new User("ThunderHorse", 20),
+                new User("Murmainder", 25)));
+        ArrayList<User> result = new ArrayList<>();
+        result.addAll(sortUser.sortNameLength(userList));
+        List<User> expected = new ArrayList<>();
+        expected.addAll(Arrays.asList(
+                new User("Сергей", 25),
+                new User("Murmainder", 25),
+                new User("ThunderHorse", 20),
+                new User("whatDoesTheFoxSay", 30)));
+        assertThat(result, is(expected));
+
+    }
 }
