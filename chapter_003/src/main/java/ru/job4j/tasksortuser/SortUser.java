@@ -17,7 +17,6 @@ public class SortUser {
         result.addAll(userList);
         return result;
     }
-
     /**
      *
      * @param userList - received list.
@@ -34,11 +33,10 @@ public class SortUser {
         });
          return userList;
     }
-
     /**
      * method, which is used for sorting by name and age.
-     * @param userList
-     * @return
+     * @param userList - received List.
+     * @return - sortedList.
      */
     public List<User> sortByAllFriends(List<User> userList) {
         userList.sort(new Comparator<User>() {

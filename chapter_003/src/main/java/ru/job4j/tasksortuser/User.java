@@ -46,28 +46,52 @@ class User implements Comparable<User> {
     @Override
     public int compareTo(User o) {
         Integer integerAge = this.age;
-        return integerAge.compareTo(o.age);
+        int result = integerAge.compareTo(o.age);
+        if (result == 0) {
+            return -1;
+        }
+        return result;
     }
     /**
      * Override toString.
      * @return - String, what we need.
      */
+
     @Override
     public String toString() {
         return "User: " + name + " Age " + age + System.lineSeparator();
     }
 
     /**
-     * Override equals.
-     * @param obj - received object (User).
-     * @return - boolean value.
+     *
+     * @param o - received obj.
+     * @return - equals result.
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        User user = (User) obj;
-        return name != null ? name.equals(user.name) && age == user.age : user.name == null;
+        User user = (User) o;
+
+        if (age != user.age) {
+            return false;
+        }
+        return name.equals(user.name);
+    }
+
+    /**
+     * hashcode.
+     * @return - override hashcode.
+     */
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + age;
+        return result;
     }
 }

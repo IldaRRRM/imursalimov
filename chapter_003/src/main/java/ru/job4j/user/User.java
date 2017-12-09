@@ -1,7 +1,6 @@
 package ru.job4j.user;
 
 
-import java.util.Random;
 
 /**
  *
