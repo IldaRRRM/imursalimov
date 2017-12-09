@@ -6,36 +6,81 @@ public class Board {
     /**
      * Figures array.
      */
-   static Figure[] figures = new Figure[32];
+    Figure[] figures = new Figure[32];
     /**
-     * index.
+     * position in figuresArr.
      */
-    private int index = 0;
+    private int positionInArr = 0;
+
     /**
-     * method addFigure to figures array.
-     * @param figure
+     * add figure on the board.
+     * @param figure - received figure.
      */
     public void addFigure(Figure figure) {
-        figures[index++] = figure;
+        figures[positionInArr++] = figure;
     }
     /**
-     * fill chessBoard with unic numbers : 11, 21 , 31 ....
-     * @param board - board, which we'll fill.
-     * @return - chessBoard with numbers.
+     * @param source - current position.
+     * @param dist - cell on the board, which figure will go.
+     * @return - true or exception.
+     * @throws ImpossibleMoveException - impossible move.
+     * @throws OccupiedWayException - exception, when figure is on a way.
+     * @throws FigureNotFoundException - figure is not found in this cell.
      */
-    public static int[][] fillBoard(int[][] board) {
-        int iter = 11;
-        for (int i = board.length - 1; i >= 0; i--) {
-            for (int j = 0; j < board.length; j++) {
-                board[i][j] = i + iter;
-                iter += 10;
-                if (j == board.length - 1) {
-                    iter = 11;
+    boolean move(Cell source, Cell dist) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
+        Figure currentFigure = null;
+        for (Figure figure : figures) {
+            if (figure != null) {
+                if (figure.position.equals(source)) {
+                    currentFigure = figure;
                 }
             }
         }
-        return board;
+        //Check "figure is not found exception".
+        try {
+            if (currentFigure == null) {
+                throw new FigureNotFoundException("Figure is not found");
+            }
+        } catch (FigureNotFoundException nfe) {
+            return false;
+        }
+        // Check Figure is on a way exception.
+        Cell[] fkWay = currentFigure.way(source, dist);
+        try {
+            for (Figure figure : figures) {
+                if (figure != null) {
+                    if (!currentFigure.position.equals(figure.position)) {
+                        for (Cell cell : fkWay) {
+                            if (cell.equals(figure.position)) {
+                                throw new OccupiedWayException("Impossible move, a figure on the way");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (OccupiedWayException nfe) {
+            return false;
+        }
+        //Check impossible move exception.
+        try {
+            if (fkWay.length == 0) {
+                throw new ImpossibleMoveException("Impossible move");
+            }
+        } catch (ImpossibleMoveException nfe) {
+            return false;
+        }
+        // change position.
+        for (int i = 0; i < figures.length; i++) {
+            if (figures[i] != null) {
+                if (figures[i].position.getX() == source.getX()
+                        && figures[i].position.getY() == source.getY()) {
+                    figures[i] = currentFigure.clone(dist);
+                }
+            }
+        }
+        return true;
     }
 }
+
 
 

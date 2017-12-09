@@ -1,35 +1,33 @@
 package ru.job4j.chess;
-
 /**
  * Created by ildar on 06.11.17.
  */
 public class TestFigure extends Figure {
     /**
-     * constructor.
-     * @param position - position.
+     * @param dest - dist.
+     * @return - new Figure.
      */
-    public TestFigure(Cell position) {
-        super(position);
+    @Override
+    Figure clone(Cell dest) {
+        return null;
     }
 
     /**
-     * test.
-     * @param position - position
-     * @param dist - step coord.
+     *
+     * @param source - beginning position.
+     * @param dist - position, which figure should goes.
      * @return - .
-     * @throws ImpossibleMoveException - except.
+     * @throws ImpossibleMoveException - Imps.
      */
-    boolean wayPossible(Cell position, Cell dist) throws ImpossibleMoveException {
-        return false;
-    }
-
-    /**
-     * test.
-     * @param dist - test.
-     * @return - test.
-     * @throws ImpossibleMoveException - test.
-     */
-    Cell[] way(Cell dist) throws ImpossibleMoveException {
+    @Override
+    Cell[] way(Cell source, Cell dist) throws ImpossibleMoveException {
         return new Cell[0];
+    }
+    /**
+     * TestFigure.
+     * @param position - received position.
+     */
+    TestFigure(Cell position) {
+        super(position);
     }
 }
