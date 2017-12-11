@@ -72,8 +72,7 @@ public class Board {
         // change position.
         for (int i = 0; i < figures.length; i++) {
             if (figures[i] != null) {
-                if (figures[i].position.getX() == source.getX()
-                        && figures[i].position.getY() == source.getY()) {
+                if (figures[i].position.equals(source)) {
                     figures[i] = currentFigure.clone(dist);
                 }
             }
