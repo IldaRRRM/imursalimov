@@ -98,7 +98,6 @@ public class DataOfBank {
         } else if (!muchMoney) {
             System.out.println("insufficient funds in the account.");
         }
-
         return result;
     }
 
