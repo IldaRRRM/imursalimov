@@ -42,9 +42,12 @@ public class DataOfBank {
      * @return - list with user accounts.
      */
     public List<Account> getUserAccounts(User user) {
+        return userListMap.get(user);
+        /*
         List<Account> result = new ArrayList<>();
         result.addAll(userListMap.get(user));
         return result;
+        */
     }
 
     /**
@@ -106,12 +109,12 @@ public class DataOfBank {
         for (Map.Entry<User, List<Account>> pair : map.entrySet()) {
             User value = pair.getKey();
             List<Account> accounts = pair.getValue();
-            System.out.println("The User name is: " + value.getName()
-                    + System.lineSeparator() + "The passport is: " + value.getPassport());
-            System.out.println("The user has next accounts: ");
+            System.out.printf("The User name is: %s  His passport: %d%n",
+                    value.getName(), value.getPassport());
+            System.out.printf("The user %s has next accounts: %n", value.getName());
             for (Account account : accounts) {
-                System.out.println("Requisites: " + account.getRequisites() + ";"
-                        + " Value of money: " + account.getValue());
+                System.out.printf("Requisites: %d Value of Money: %.2f%n",
+                        account.getRequisites(), account.getValue());
             }
         }
     }

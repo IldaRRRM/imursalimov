@@ -62,6 +62,7 @@ public class TestBankCollection {
        accounts.add(new Account(3000, 1));
        accounts.add(new Account(5000, 2));
        assertThat(dataOfBank.getUserAccounts(igor), is(accounts));
+       dataOfBank.printValues(dataOfBank.getUserListMap());
    }
    @Test
    public void transferMoneyFromOneUserToAnother() {
