@@ -20,9 +20,7 @@ public class NestedArrays {
         }
         return arrays;
     }
-
     /**
-     *
      * @param array - received list with arrays.
      * @return - List which includes sorted form high to less arrays.
      */
