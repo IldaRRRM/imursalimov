@@ -18,19 +18,16 @@ public class UserSortTest {
     public void inputUserListAndOutputSortedByAgeTreeSetResultFuuck() {
         SortUser sortUser = new SortUser();
         List<User> userList = new ArrayList<>();
-        userList.addAll(Arrays.asList(
-                new User("Oleg", 18),
-                new User("Boris", 40),
-                new User("Igor", 40)));
+        userList.add(new User("Boris", 51));
+        userList.add(new User("Oleg", 30));
+        userList.add(new User("Igor", 51));
         Set<User> result = sortUser.sort(userList);
         Set<User> expected = new TreeSet<>();
-        expected.addAll(Arrays.asList(
-                new User("Oleg", 18),
-                new User("Boris", 40),
-                new User("Igor", 40)));
-        assertThat(expected, is(result));
+        expected.add(new User("Oleg", 30));
+        expected.add(new User("Boris", 51));
+        expected.add(new User("Igor", 51));
+        assertThat(result, is(expected));
     }
-
     /**
      *
      */

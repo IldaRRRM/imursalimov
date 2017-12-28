@@ -18,7 +18,6 @@ public class SortUser {
         return result;
     }
     /**
-     *
      * @param userList - received list.
      * @return - sorted list.
      */

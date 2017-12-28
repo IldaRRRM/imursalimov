@@ -46,11 +46,7 @@ class User implements Comparable<User> {
     @Override
     public int compareTo(User o) {
         Integer integerAge = this.age;
-        int result = integerAge.compareTo(o.age);
-        if (result == 0) {
-            return -1;
-        }
-        return result;
+        return integerAge.compareTo(o.age) == 1 ? 1 : -1;
     }
     /**
      * Override toString.
@@ -81,9 +77,8 @@ class User implements Comparable<User> {
         if (age != user.age) {
             return false;
         }
-        return name.equals(user.name);
+        return name != null ? name.equals(user.name) : user.name == null;
     }
-
     /**
      * hashcode.
      * @return - override hashcode.
