@@ -45,8 +45,7 @@ class User implements Comparable<User> {
      */
     @Override
     public int compareTo(User o) {
-        Integer integerAge = this.age;
-        return integerAge.compareTo(o.age) == 1 ? 1 : -1;
+        return this.age > o.age ? 1 : -1;
     }
     /**
      * Override toString.
