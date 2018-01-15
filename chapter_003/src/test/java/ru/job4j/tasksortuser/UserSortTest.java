@@ -50,7 +50,6 @@ public class UserSortTest {
                 new User("Сергей", 25)));
         assertThat(result, is(expected));
     }
-
     /**
      * sort by nameLength.
      */

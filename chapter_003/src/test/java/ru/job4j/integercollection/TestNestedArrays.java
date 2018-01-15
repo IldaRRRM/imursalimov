@@ -12,31 +12,37 @@ import static org.junit.Assert.assertThat;
 public class TestNestedArrays {
     @Test
     public void whenReceivedArraysSortedFromLessToHigh() {
-        Integer[] expIntegers = new Integer[] {1, 2, 3};
-        Integer[] integers1 = new Integer[] {6, 7, 7, 9, 13, 21, 45, 101, 102};
+        Integer[] expIntegers = new Integer[] {1, 1, 1};
+        Integer[] integers1 = new Integer[] {1, 1, 2};
+        Integer[] nextIntegers = new Integer[] {1, 1, 3};
         List<Integer[]> expected = new ArrayList<>();
         expected.add(expIntegers);
         expected.add(integers1);
-        List<Integer[]> promList = new ArrayList<>();
-        promList.add(new Integer[] {2, 1, 3});
-        promList.add(new Integer[] {13, 7, 6, 45, 21, 9, 101, 102, 7});
+        expected.add(nextIntegers);
+        List<Integer[]> resultList = new ArrayList<>();
+        resultList.add(new Integer[] {1, 1, 3});
+        resultList.add(new Integer[] {1, 1, 1});
+        resultList.add(new Integer[] {1, 1, 2});
         NestedArrays nestedArrays = new NestedArrays();
-        List<Integer[]> result = nestedArrays.sortFromLessToHigh(promList);
+        List<Integer[]> result = nestedArrays.sortFromLessToHigh(resultList);
         assertThat(result.get(1), is(expected.get(1)));
         assertThat(result.get(0), is(expected.get(0)));
     }
     @Test
     public void whenReceivedListWithArraysSortedFromHighToLess() {
-        Integer[] expIntegers = new Integer[] {3, 2, 1};
-        Integer[] integers1 = new Integer[] {102, 101, 45, 21, 13, 9, 7, 7, 6};
+        Integer[] expIntegers = new Integer[] {5, 5, 2};
+        Integer[] integers1 = new Integer[] {5, 2, 1};
+        Integer[] nextIntegers = new Integer[] {5, 2, 0};
         List<Integer[]> expected = new ArrayList<>();
         expected.add(expIntegers);
         expected.add(integers1);
-        List<Integer[]> promList = new ArrayList<>();
-        promList.add(new Integer[] {2, 1, 3});
-        promList.add(new Integer[] {45, 101, 102, 6, 7, 7, 9, 13, 21});
+        expected.add(nextIntegers);
+        List<Integer[]> resultList = new ArrayList<>();
+        resultList.add(new Integer[] {5, 2, 0});
+        resultList.add(new Integer[] {5, 5, 2});
+        resultList.add(new Integer[] {5, 2, 1});
         NestedArrays nestedArrays = new NestedArrays();
-        List<Integer[]> result = nestedArrays.fromHighToLessMethod(promList);
+        List<Integer[]> result = nestedArrays.fromHighToLessMethod(resultList);
         assertThat(result.get(1), is(expected.get(1)));
         assertThat(result.get(0), is(expected.get(0)));
     }
