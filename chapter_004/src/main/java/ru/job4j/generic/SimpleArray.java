@@ -12,7 +12,8 @@ public class SimpleArray<T> {
 
     private int iterableItem = 0;
 
-    Iterable<T> iterable = new Iterable<T>() {
+    public Iterable<T> iterable = new Iterable<T>() {
+
         @Override
         public Iterator<T> iterator() {
             return new Iterator<T>() {
@@ -36,7 +37,6 @@ public class SimpleArray<T> {
                         throw new NoSuchElementException("no such element exception");
                     }
                     return (T) result;
-
                 }
             };
         }
@@ -81,7 +81,6 @@ public class SimpleArray<T> {
      */
     public void set(int index, T model) {
         this.objects[index] = model;
-
     }
 
     /**
@@ -97,5 +96,14 @@ public class SimpleArray<T> {
             objects[i + 1] = tmp;
         }
         this.objects = Arrays.copyOf(objects, objects.length - 1);
+        iterableItem = 0;
+    }
+
+    /**
+     * getter for objects.
+     * @return - array of objects.
+     */
+    public Object[] getObjects() {
+        return objects;
     }
 }
