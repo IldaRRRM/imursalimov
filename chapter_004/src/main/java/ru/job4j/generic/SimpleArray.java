@@ -10,18 +10,21 @@ public class SimpleArray<T> implements Iterable<T> {
 
     private int index = 0;
 
+    private int iterableValue = 0;
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             @Override
             public boolean hasNext() {
-                return index + 1 <= objects.length;
+                return iterableValue + 1 <= objects.length;
             }
+
 
             @Override
             public T next() {
                 if (hasNext()) {
-                    return (T) objects[index++];
+                    return (T) objects[iterableValue++];
                 } else {
                     throw new NoSuchElementException("No such element");
                 }
@@ -81,7 +84,7 @@ public class SimpleArray<T> implements Iterable<T> {
             objects[i + 1] = tmp;
         }
         this.objects = Arrays.copyOf(objects, objects.length - 1);
-        this.index = 0;
+        iterableValue = 0;
     }
 
     /**
