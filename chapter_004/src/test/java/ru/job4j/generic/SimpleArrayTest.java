@@ -55,7 +55,7 @@ public class SimpleArrayTest {
     public void iteratorForOurSimpleArray() {
         SimpleArray<Integer> integerSimpleArray = new SimpleArray<>(5);
         integerSimpleArray.setObjects(new Integer[] {2, 3, 5, 7, 3571});
-        Iterator<Integer> it = integerSimpleArray.iterable.iterator();
+        Iterator<Integer> it = integerSimpleArray.iterator();
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(2));
         assertThat(it.hasNext(), is(true));

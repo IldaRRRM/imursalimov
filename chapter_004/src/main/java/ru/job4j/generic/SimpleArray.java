@@ -4,44 +4,30 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class SimpleArray<T> {
+public class SimpleArray<T> implements Iterable<T> {
 
     private Object[] objects;
 
     private int index = 0;
 
-    private int iterableItem = 0;
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            @Override
+            public boolean hasNext() {
+                return index + 1 <= objects.length;
+            }
 
-    public Iterable<T> iterable = new Iterable<T>() {
-
-        @Override
-        public Iterator<T> iterator() {
-            return new Iterator<T>() {
-                @Override
-                public boolean hasNext() {
-                    int promHasNext = iterableItem;
-                    boolean result = true;
-                    promHasNext++;
-                    if (promHasNext > objects.length) {
-                        result = false;
-                    }
-                    return result;
+            @Override
+            public T next() {
+                if (hasNext()) {
+                    return (T) objects[index++];
+                } else {
+                    throw new NoSuchElementException("No such element");
                 }
-
-                @Override
-                public T next() {
-                    Object result;
-                    try {
-                        result = (T) objects[iterableItem++];
-                    } catch (ArrayIndexOutOfBoundsException nfe) {
-                        throw new NoSuchElementException("no such element exception");
-                    }
-                    return (T) result;
-                }
-            };
-        }
-    };
-
+            }
+        };
+    }
     /**
      * Constructor.
      *
@@ -90,13 +76,12 @@ public class SimpleArray<T> {
      */
     public void delete(int index) {
         for (int i = index; i < objects.length - 1; i++) {
-            Object tmp = new Object();
-            tmp = objects[i];
+            Object tmp = objects[i];
             objects[i] = objects[i + 1];
             objects[i + 1] = tmp;
         }
         this.objects = Arrays.copyOf(objects, objects.length - 1);
-        iterableItem = 0;
+        this.index = 0;
     }
 
     /**
