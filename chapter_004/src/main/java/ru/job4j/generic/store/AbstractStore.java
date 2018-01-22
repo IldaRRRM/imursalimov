@@ -2,6 +2,8 @@ package ru.job4j.generic.store;
 
 import ru.job4j.generic.SimpleArray;
 
+import java.util.NoSuchElementException;
+
 public abstract class AbstractStore<T extends Base> {
 
     private SimpleArray<T> simpleArray;
@@ -34,7 +36,7 @@ public abstract class AbstractStore<T extends Base> {
         boolean result = false;
         for (int i = 0; i < simpleArray.getObjects().length; i++) {
             if (simpleArray.getObjects()[i] != null) {
-                String idWhatWeFind = simpleArray.iterable.iterator().next().getId();
+                String idWhatWeFind = simpleArray.get(i).getId();
                 if (idWhatWeFind.equals(id)) {
                     simpleArray.set(i, model);
                     result = true;
@@ -53,7 +55,7 @@ public abstract class AbstractStore<T extends Base> {
         boolean result = false;
         for (int i = 0; i < simpleArray.getObjects().length; i++) {
             if (simpleArray.getObjects()[i] != null) {
-                String idWhatWeFind = simpleArray.iterable.iterator().next().getId();
+                String idWhatWeFind = simpleArray.get(i).getId();
                 if (idWhatWeFind.equals(id)) {
                     simpleArray.delete(i);
                     result = true;
@@ -72,14 +74,14 @@ public abstract class AbstractStore<T extends Base> {
         T result = null;
         for (int i = 0; i < simpleArray.getObjects().length; i++) {
             if (simpleArray.getObjects()[i] != null) {
-                String idWhatWeFind = simpleArray.iterable.iterator().next().getId();
+                String idWhatWeFind = simpleArray.get(i).getId();
                 if (idWhatWeFind.equals(id)) {
                     result = simpleArray.get(i);
                 }
             }
         }
         if (result == null) {
-            throw new NullPointerException("Role with this id is not found.");
+            throw new NoSuchElementException("No such element");
         }
         return result;
     }
