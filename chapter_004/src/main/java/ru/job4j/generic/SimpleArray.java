@@ -10,14 +10,16 @@ public class SimpleArray<T> implements Iterable<T> {
 
     private int index = 0;
 
-    private int iterableValue = 0;
-
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            int iterableValue = 0;
+
             @Override
             public boolean hasNext() {
-                return iterableValue + 1 <= objects.length;
+                System.out.println(iterableValue);
+                System.out.println(index);
+                return iterableValue + 1 <= index;
             }
 
 
@@ -31,21 +33,13 @@ public class SimpleArray<T> implements Iterable<T> {
             }
         };
     }
+
     /**
      * Constructor.
-     *
      * @param size - size of arr.
      */
     public SimpleArray(int size) {
         this.objects = new Object[size];
-    }
-
-    /**
-     * setter for objects.
-     * @param objects - new array.
-     */
-    public void setObjects(Object[] objects) {
-        this.objects = objects;
     }
 
     /**
@@ -74,7 +68,6 @@ public class SimpleArray<T> implements Iterable<T> {
 
     /**
      * delete.
-     *
      * @param index - index.
      */
     public void delete(int index) {
@@ -83,8 +76,8 @@ public class SimpleArray<T> implements Iterable<T> {
             objects[i] = objects[i + 1];
             objects[i + 1] = tmp;
         }
-        this.objects = Arrays.copyOf(objects, objects.length - 1);
-        iterableValue = 0;
+        this.objects[objects.length - 1] = null;
+        this.index--;
     }
 
     /**
