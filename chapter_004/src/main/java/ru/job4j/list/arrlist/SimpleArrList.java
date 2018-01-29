@@ -9,17 +9,16 @@ public class SimpleArrList<E> implements Container<E> {
     private Object[] container = new Object[10];
 
     private int index = 0;
-    private int iterInd = 0;
-    private int size = 0;
     private int modCount = 0;
 
     @Override
     public Iterator<E> iterator() {
-        int expectedModCount = modCount;
         return new Iterator<E>() {
+            int iterInd = 0;
+            int expectedModCount = modCount;
             @Override
             public boolean hasNext() {
-                return iterInd + 1 <= size;
+                return iterInd < index;
             }
 
             @Override
@@ -43,7 +42,6 @@ public class SimpleArrList<E> implements Container<E> {
     @Override
     public void add(E model) {
         container[index++] = model;
-        size++;
         modCount++;
         if (container.length == index + 1) {
             container = Arrays.copyOf(container, container.length + 1);
