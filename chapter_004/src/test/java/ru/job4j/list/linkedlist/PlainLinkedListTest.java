@@ -1,4 +1,4 @@
-package ru.job4j.list.arrlist;
+package ru.job4j.list.linkedlist;
 
 import org.junit.Test;
 
@@ -9,19 +9,18 @@ import java.util.NoSuchElementException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class SimpleArrListTest {
+public class PlainLinkedListTest {
     @Test
-    public void testingArrayListWithAddAndGet() {
-        SimpleArrList<Integer> simpleArrList = new SimpleArrList<>();
-        for (int i = 0; i < 10000; i++) {
-            simpleArrList.add(i);
+    public void testingSimpleLinkedListMethodsAddAndGet() {
+        PlainLinkedList<Integer> plainLinkedList = new PlainLinkedList<>();
+        for (int i = 0; i < 100; i++) {
+            plainLinkedList.add(i);
         }
-        assertThat(simpleArrList.get(9999), is(9999));
+        assertThat(plainLinkedList.get(99), is(99));
     }
-
     @Test(expected = NoSuchElementException.class)
     public void iteratorInTheArrayListNextAndHasNext() {
-        SimpleArrList<Integer> integerSimpleArrList = new SimpleArrList<>();
+        PlainLinkedList<Integer> integerSimpleArrList = new PlainLinkedList<>();
         integerSimpleArrList.add(2);
         integerSimpleArrList.add(3);
         integerSimpleArrList.add(5);
@@ -45,13 +44,14 @@ public class SimpleArrListTest {
 
     @Test(expected = ConcurrentModificationException.class)
     public void whenWeAreChangedInCycleArrThrowAnException() {
-        SimpleArrList<Integer> simpleArrList = new SimpleArrList<>();
-        simpleArrList.add(1);
-        simpleArrList.add(2);
-        simpleArrList.add(3);
-        for (Integer olo : simpleArrList) {
-            simpleArrList.add(olo);
+        PlainLinkedList<Integer> plainLinkedList = new PlainLinkedList<>();
+        plainLinkedList.add(1);
+        plainLinkedList.add(2);
+        plainLinkedList.add(3);
+        for (Integer olo : plainLinkedList) {
+            plainLinkedList.add(olo);
         }
     }
+
 
 }

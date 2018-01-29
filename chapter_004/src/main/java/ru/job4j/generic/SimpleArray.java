@@ -17,8 +17,6 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                System.out.println(iterableValue);
-                System.out.println(index);
                 return iterableValue + 1 <= index;
             }
 
