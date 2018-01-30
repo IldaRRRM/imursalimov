@@ -18,6 +18,7 @@ public class PlainLinkedListTest {
         }
         assertThat(plainLinkedList.get(99), is(99));
     }
+
     @Test(expected = NoSuchElementException.class)
     public void iteratorInTheArrayListNextAndHasNext() {
         PlainLinkedList<Integer> integerSimpleArrList = new PlainLinkedList<>();
