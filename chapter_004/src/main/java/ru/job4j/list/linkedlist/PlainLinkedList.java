@@ -80,9 +80,6 @@ public class PlainLinkedList<E> implements Container<E> {
         Node<E> eNode = new Node<>(model);
         if (first == null) {
             first = eNode;
-            first.next = eNode;
-            last = eNode;
-            last.previus = first;
         } else {
             last.next = eNode;
             eNode.previus = last;
@@ -140,4 +137,5 @@ public class PlainLinkedList<E> implements Container<E> {
     public int getLastIndexFromList() {
         return index - 1;
     }
+
 }
