@@ -57,4 +57,11 @@ public class SimpleArrList<E> implements Container<E> {
         return (E) container[index];
     }
 
+    /**
+     * array.
+     * @return - array.
+     */
+    public Object[] getContainer() {
+        return container;
+    }
 }
