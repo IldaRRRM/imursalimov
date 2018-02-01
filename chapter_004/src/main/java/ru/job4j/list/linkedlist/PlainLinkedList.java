@@ -113,19 +113,29 @@ public class PlainLinkedList<E> implements Container<E> {
      * delete last element from LinkedList.
      */
     public void deleteLastElement() {
-        last = last.previus;
-        last.next = null;
-        index--;
-
+        if (last.previus == null) {
+            first = null;
+            last = null;
+            index = 0;
+        } else {
+            last = last.previus;
+            last.next = null;
+            index--;
+        }
     }
 
     /**
      * delete first element.
      */
     public void removeFirstElement() {
-        first = first.next;
-        first.previus = null;
-        index--;
+        if (first.next == null) {
+            first = null;
+            index = 0;
+        } else {
+            first = first.next;
+            first.previus = null;
+            index--;
+        }
     }
 
     /**

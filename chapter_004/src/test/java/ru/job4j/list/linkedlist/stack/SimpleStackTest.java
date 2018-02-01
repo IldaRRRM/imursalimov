@@ -16,11 +16,12 @@ public class SimpleStackTest {
     @Test
     public void pollMethodTestingFromSimpleStack() {
         SimpleStack<Integer> simpleStack = new SimpleStack<>();
-        simpleStack.push(4);
-        simpleStack.push(5);
-        simpleStack.push(6);
-        assertThat(simpleStack.poll(), is(6));
-        assertThat(simpleStack.poll(), is(5));
+        simpleStack.push(1);
+        simpleStack.push(2);
+        simpleStack.push(3);
+        assertThat(simpleStack.poll(), is(3));
+        assertThat(simpleStack.poll(), is(2));
+        assertThat(simpleStack.poll(), is(1));
     }
 
 }

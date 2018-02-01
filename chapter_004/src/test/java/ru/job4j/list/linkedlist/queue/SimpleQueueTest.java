@@ -22,5 +22,15 @@ public class SimpleQueueTest {
         simpleStack.push("Fourth");
         assertThat(simpleStack.poll(), is("First"));
         assertThat(simpleStack.poll(), is("Second"));
+        assertThat(simpleStack.poll(), is("Third"));
+        assertThat(simpleStack.poll(), is("Fourth"));
+        //
+        SimpleQueue<Integer> queue = new SimpleQueue<>();
+        queue.push(1);
+        queue.push(2);
+        queue.push(3);
+        assertThat(queue.poll(), is(1));
+        assertThat(queue.poll(), is(2));
+        assertThat(queue.poll(), is(3));
     }
 }
