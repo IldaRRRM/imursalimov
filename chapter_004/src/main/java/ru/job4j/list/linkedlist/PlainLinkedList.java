@@ -147,4 +147,19 @@ public class PlainLinkedList<E> implements Container<E> {
         return index - 1;
     }
 
+    /**
+     * getter for firstNode.
+     * @return
+     */
+    public Node<E> getFirst() {
+        return first;
+    }
+
+    /**
+     * getter for LastNode.
+     * @return - lastNode.
+     */
+    public Node<E> getLast() {
+        return last;
+    }
 }
