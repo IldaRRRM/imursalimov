@@ -114,16 +114,12 @@ public class SingleLinkedList<E> implements Container<E> {
             return false;
         }
 
-        while (fast != null || slow != null) {
-            try {
-                if (fast == slow) {
-                    return true;
-                }
-                slow = slow.next;
-                fast = fast.next.next;
-            } catch (NullPointerException npe) {
-                fast = null;
+        while (fast != null && fast.next != null || slow != null) {
+            if (fast == slow) {
+                return true;
             }
+            slow = slow.next;
+            fast = (fast != null ? fast.next : null) != null ? fast.next.next : null;
         }
         return false;
     }
