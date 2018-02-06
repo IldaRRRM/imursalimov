@@ -110,10 +110,6 @@ public class SingleLinkedList<E> implements Container<E> {
 
         Node<E> fast = singleLinkedList.first.next;
 
-        if (singleLinkedList.first == null) {
-            return false;
-        }
-
         while (fast != null && fast.next != null || slow != null) {
             if (fast == slow) {
                 return true;
