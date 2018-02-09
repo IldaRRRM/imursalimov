@@ -28,15 +28,17 @@ public class SingleLinkedListTest {
         assertThat(linkedList.hasCycle(linkedList), is(true));
     }
 
+    /**
+     *  Вот на этом тесте падает.
+     */
     @Test
     public void everythingIsAlrightAndResultMustBeAFalse() {
         SingleLinkedList<Integer> linkedList = new SingleLinkedList<>();
         linkedList.add(1);
-        linkedList.add(2);
-        linkedList.add(4);
-        linkedList.add(2);
-        linkedList.add(6);
-        linkedList.add(1);
+        linkedList.add(12);
+        linkedList.add(17);
+        linkedList.add(12);
+        linkedList.add(19);
         assertThat(linkedList.hasCycle(linkedList), is(false));
     }
 
