@@ -9,9 +9,8 @@ public class SetOnHashTableTest {
     @Test
     public void whenWeAddAnElementToHashTableWithHashFunction() {
         SetOnHashTable<Integer> setOnHashTable = new SetOnHashTable<>(10);
-        DataItem<Integer> dataItem = new DataItem<>(1);
-        boolean result = setOnHashTable.add(dataItem);
-        boolean secondTry = setOnHashTable.add(dataItem);
+        boolean result = setOnHashTable.add(1);
+        boolean secondTry = setOnHashTable.add(1);
         assertThat(result, is(true));
         assertThat(secondTry, is(false));
 
@@ -20,9 +19,9 @@ public class SetOnHashTableTest {
     @Test
     public void whenWeAddEqualsElementsToSetOnHashTable() {
         SetOnHashTable<Integer> set = new SetOnHashTable<>(10);
-        DataItem<Integer> firstItem = new DataItem<>(1);
-        DataItem<Integer> second = new DataItem<>(1);
-        DataItem<Integer> third = new DataItem<>(2);
+        Integer firstItem = 1;
+        Integer second = 2;
+        Integer third = 2;
         set.add(third);
         boolean result = set.add(firstItem);
         boolean wrongResult = set.add(second);
@@ -34,9 +33,9 @@ public class SetOnHashTableTest {
     @Test
     public void methodForTestingContainsMethod() {
         SetOnHashTable<Integer> set = new SetOnHashTable<>(10);
-        DataItem<Integer> firstItem = new DataItem<>(1);
-        DataItem<Integer> second = new DataItem<>(2);
-        DataItem<Integer> five = new DataItem<>(5);
+        Integer firstItem = 1;
+        Integer second = 2;
+        Integer five = 5;
         set.add(firstItem);
         set.add(second);
         boolean result = set.contains(second);
@@ -48,9 +47,9 @@ public class SetOnHashTableTest {
     @Test
     public void removeMethodInActionWithSomeElements() {
         SetOnHashTable<String> set = new SetOnHashTable<>(10);
-        DataItem<String> firstItem = new DataItem<>("First");
-        DataItem<String> second = new DataItem<>("Second");
-        DataItem<String> five = new DataItem<>("Five");
+        String firstItem = "First";
+        String second = "Second";
+        String five = "Five";
         set.add(firstItem);
         set.add(second);
         boolean rightResult = set.remove(second);
@@ -65,16 +64,16 @@ public class SetOnHashTableTest {
         int expectedSize = 4;
         int secondIteration = 8;
         int lastIter = 16;
-        set.add(new DataItem<>(1));
-        set.add(new DataItem<>(2));
+        set.add(1);
+        set.add(2);
         assertThat(expectedSize, is(set.getArrSize()));
-        set.add(new DataItem<>(7));
-        set.add(new DataItem<>(8));
-        set.add(new DataItem<>(9));
+        set.add(7);
+        set.add(8);
+        set.add(9);
         assertThat(secondIteration, is(set.getArrSize()));
-        set.add(new DataItem<>(10));
-        set.add(new DataItem<>(11));
-        set.add(new DataItem<>(12));
+        set.add(10);
+        set.add(11);
+        set.add(12);
         assertThat(lastIter, is(set.getArrSize()));
     }
 }

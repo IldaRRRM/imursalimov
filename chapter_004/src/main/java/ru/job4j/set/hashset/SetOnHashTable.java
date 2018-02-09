@@ -2,29 +2,6 @@ package ru.job4j.set.hashset;
 
 
 /**
- * @param <E> - generic.
- */
-class DataItem<E> {
-    private E model;
-
-    /**
-     * Constructor.
-     * @param model - received model.
-     */
-    DataItem(E model) {
-        this.model = model;
-    }
-
-    /**
-     * getModel.
-     * @return - model.
-     */
-    public E getModel() {
-        return model;
-    }
-}
-
-/**
  * Simple Set on HashTable.
  * @param <E> - generic.
  */
@@ -32,7 +9,7 @@ public class SetOnHashTable<E> {
 
     private int arrSize;
 
-    private DataItem[] hashArray;
+    private Object[] hashArray;
 
     private int valueOfFreeCell;
 
@@ -42,7 +19,7 @@ public class SetOnHashTable<E> {
      */
     public SetOnHashTable(int size) {
         arrSize = size;
-        hashArray = new DataItem[arrSize];
+        hashArray = new Object[arrSize];
         valueOfFreeCell = arrSize;
     }
 
@@ -59,9 +36,9 @@ public class SetOnHashTable<E> {
      * @param element - element, which will be added.
      * @return - boolean result.
      */
-    public boolean add(DataItem<E> element) {
+    public boolean add(Object element) {
         if (!contains(element)) {
-            E key = element.getModel();
+            E key = (E) element;
             int hashValue = hashFunc(key.hashCode());
             hashArray[hashValue] = element;
             valueOfFreeCell--;
@@ -76,9 +53,9 @@ public class SetOnHashTable<E> {
      * @param element - element, which will be removed.
      * @return - boolean result.
      */
-    public boolean remove(DataItem<E> element) {
+    public boolean remove(Object element) {
         if (contains(element)) {
-            E key = element.getModel();
+            E key = (E) element;
             int hashValue = hashFunc(key.hashCode());
             hashArray[hashValue] = null;
             valueOfFreeCell++;
@@ -93,21 +70,20 @@ public class SetOnHashTable<E> {
      * @param element - received element.
      * @return - boolean result.
      */
-    public boolean contains(DataItem<E> element) {
-        E key = element.getModel();
+    public boolean contains(Object element) {
+        E key = (E) element;
         int hashValue = hashFunc(key.hashCode());
         return hashArray[hashValue] != null
-                && hashArray[hashValue].getModel() == element.getModel();
+                && hashArray[hashValue] == element;
     }
 
     /**
-     * GetterForTest.
-     * @return - arrSize.
+     * CheckFreeCells in the array.
      */
     public void checkFreeCells() {
         if (this.valueOfFreeCell == 0) {
             SetOnHashTable<E> set = new SetOnHashTable<>(arrSize * 2);
-            for (DataItem dataItem : hashArray) {
+            for (Object dataItem : hashArray) {
                 if (dataItem != null) {
                     set.add(dataItem);
                 }
