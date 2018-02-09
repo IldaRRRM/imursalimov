@@ -1,6 +1,7 @@
 package ru.job4j.mapcollection;
 
 import java.util.Calendar;
+
 /**
  * Model User.
  */
@@ -8,17 +9,17 @@ public class User {
 
     private final String name;
 
-    private  int children;
+    private int children;
 
     private Calendar birthday = new Calendar.Builder().build();
 
     /**
      * Constructor.
-     * @param name - name of User.
+     * @param name     - name of User.
      * @param children - amount of children.
-     * @param year - year.
-     * @param  month - month.
-     * @param date - date.
+     * @param year     - year.
+     * @param month    - month.
+     * @param date     - date.
      */
     public User(String name, int children, int year, int month, int date) {
         this.name = name;
@@ -28,7 +29,7 @@ public class User {
     }
 
     /**
-     *Getter
+     * Getter
      * @return - return name.
      */
     public String getName() {
