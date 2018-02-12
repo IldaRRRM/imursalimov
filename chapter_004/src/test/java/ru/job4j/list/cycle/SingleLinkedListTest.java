@@ -27,10 +27,6 @@ public class SingleLinkedListTest {
         linkedList.getFirst().next.next = linkedList.getFirst().next;
         assertThat(linkedList.hasCycle(linkedList), is(true));
     }
-
-    /**
-     *  Вот на этом тесте падает.
-     */
     @Test
     public void everythingIsAlrightAndResultMustBeAFalse() {
         SingleLinkedList<Integer> linkedList = new SingleLinkedList<>();

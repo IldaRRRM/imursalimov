@@ -115,8 +115,7 @@ public class SingleLinkedList<E> implements Container<E> {
                 return true;
             }
             slow = slow.next;
-            fast = fast.next.next;
-            //fast = (fast != null ? fast.next : null) != null ? fast.next.next : null;
+            fast = (fast != null ? fast.next : null) != null ? fast.next.next : null;
         }
         return false;
     }

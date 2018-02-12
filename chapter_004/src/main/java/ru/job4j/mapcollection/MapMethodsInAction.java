@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class MapMethodsInAction {
 
-    User user;
+    private User user;
 
     private Map<User, Object> map;
 
@@ -24,13 +24,17 @@ public class MapMethodsInAction {
         map.put(secondUser, secondUser);
         for (Map.Entry<User, Object> entry : map.entrySet()) {
             User key = entry.getKey();
-            Object object = entry.getValue();
+            Object value = entry.getValue();
             System.out.printf("User name is: %s\nUser birthday is: %s\n"
                             + "Amount of children: %s\n",
                     key.getName(), key.getBirthday().getTime(), key.getChildren());
         }
     }
 
+    /**
+     * main method.
+     * @param args - args.
+     */
     public static void main(String[] args) {
         new MapMethodsInAction().dontOverrideEuqalsAndHashCode();
     }

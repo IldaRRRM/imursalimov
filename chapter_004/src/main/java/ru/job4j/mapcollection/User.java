@@ -51,4 +51,21 @@ public class User {
     public Calendar getBirthday() {
         return birthday;
     }
+
+    /**
+     * Override hashCode.
+     * @return - overrideHashCode.
+     */
+    @Override
+    public int hashCode() {
+
+        int result = 17;
+        for (int i = 0; i < this.name.length(); i++) {
+            result = 31 * result + name.charAt(i);
+        }
+        result = 31 * result + (int) children;
+        result = 31 * result + birthday.hashCode();
+        return result;
+    }
 }
+
