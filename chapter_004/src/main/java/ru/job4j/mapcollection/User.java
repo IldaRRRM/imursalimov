@@ -27,7 +27,6 @@ public class User {
         this.birthday.set(year, month - 1, date);
 
     }
-
     /**
      * Getter
      * @return - return name.
@@ -56,6 +55,7 @@ public class User {
      * Override hashCode.
      * @return - overrideHashCode.
      */
+    /*
     @Override
     public int hashCode() {
 
@@ -66,6 +66,32 @@ public class User {
         result = 31 * result + (int) children;
         result = 31 * result + birthday.hashCode();
         return result;
+    }
+    */
+
+    /**
+     * Override equals.
+     * @param o - received object.
+     * @return - override equals method.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        User user = (User) o;
+
+        if (children != user.children) {
+            return false;
+        }
+        if (name != null ? !name.equals(user.name) : user.name != null) {
+            return false;
+        }
+        return birthday != null ? birthday.equals(user.birthday) : user.birthday == null;
     }
 }
 
