@@ -55,7 +55,6 @@ public class User {
      * Override hashCode.
      * @return - overrideHashCode.
      */
-    /*
     @Override
     public int hashCode() {
 
@@ -67,7 +66,6 @@ public class User {
         result = 31 * result + birthday.hashCode();
         return result;
     }
-    */
 
     /**
      * Override equals.
