@@ -2,6 +2,7 @@ package ru.job4j.mapcollection.simplehashmap;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -31,7 +32,6 @@ public class SimpleHashMap<K, V> {
         this.array = new Object[arrSize];
         this.keyStore = new Object[arrSize];
         this.freeCell = this.arrSize;
-
     }
 
     /**

@@ -47,5 +47,27 @@ public class TreeTest {
         assertThat(it.hasNext(), is(false));
         it.next();
     }
-
+    @Test
+    public void checkTreeForBinaryResultBySummOfNodes() {
+        Tree<Integer> integerTree = new Tree<>();
+        integerTree.add(4, 1);
+        integerTree.add(4, 2);
+        assertThat(integerTree.isBinary(), is(true));
+        integerTree.add(2, 4);
+        integerTree.add(2, 5);
+        integerTree.add(2, 7);
+        assertThat(integerTree.isBinary(), is(false));
+        Tree<Integer> deepDownTest = new Tree<>();
+        deepDownTest.add(4, 1);
+        deepDownTest.add(4, 3);
+        deepDownTest.add(3, 1);
+        deepDownTest.add(3, 5);
+        deepDownTest.add(5, 2);
+        deepDownTest.add(5, 12);
+        deepDownTest.add(12, 13);
+        deepDownTest.add(12, 15);
+        assertThat(deepDownTest.isBinary(), is(true));
+        deepDownTest.add(12, 19);
+        assertThat(deepDownTest.isBinary(), is(false));
+    }
 }
