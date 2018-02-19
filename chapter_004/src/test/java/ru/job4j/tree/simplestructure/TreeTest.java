@@ -16,6 +16,8 @@ public class TreeTest {
         tree.add(4, 2);
         assertThat(tree.add(2, 7), is(true));
         assertThat(tree.add(4, 2), is(false));
+        assertThat(tree.add(1, 7), is(false));
+        assertThat(tree.add(1, 2), is(false));
         assertThat(tree.findBy(4).isPresent(), is(true));
         assertThat(tree.findBy(8).isPresent(), is(false));
     }
@@ -60,7 +62,6 @@ public class TreeTest {
         Tree<Integer> deepDownTest = new Tree<>();
         deepDownTest.add(4, 1);
         deepDownTest.add(4, 3);
-        deepDownTest.add(3, 1);
         deepDownTest.add(3, 5);
         deepDownTest.add(5, 2);
         deepDownTest.add(5, 12);

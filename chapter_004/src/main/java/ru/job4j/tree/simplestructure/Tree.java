@@ -23,12 +23,10 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             result = true;
         } else {
             if (findBy(parent).isPresent()) {
-                Node<E> node = findBy(parent).get();
-                for (Node<E> nodesOfChildren : node.leaves()) {
-                    if (nodesOfChildren.eqValue(child)) {
-                        return false;
-                    }
+                if (findBy(child).isPresent()) {
+                    return false;
                 }
+                Node<E> node = findBy(parent).get();
                 node.leaves().add(new Node<>(child));
                 modCount++;
                 result = true;
@@ -81,6 +79,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         }
         return true;
     }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
