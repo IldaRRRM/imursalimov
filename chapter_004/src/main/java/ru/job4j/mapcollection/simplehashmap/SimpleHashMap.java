@@ -1,8 +1,8 @@
 package ru.job4j.mapcollection.simplehashmap;
 
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -13,15 +13,13 @@ public class SimpleHashMap<K, V> {
 
     private int arrSize;
 
-    private int keyCountValue = 0;
+    private int amountOfItems = 0;
 
     private int freeCell;
 
     private int modCount = 0;
 
-    private Object[] array;
-
-    private Object[] keyStore;
+    private Store<K, V>[] array;
 
     /**
      * public constructor.
@@ -29,85 +27,31 @@ public class SimpleHashMap<K, V> {
     public SimpleHashMap() {
 
         this.arrSize = 16;
-        this.array = new Object[arrSize];
-        this.keyStore = new Object[arrSize];
+        this.array = new Store[arrSize];
         this.freeCell = this.arrSize;
+
     }
 
     /**
      * constructor with size.
+     *
      * @param size - new size.
      */
     public SimpleHashMap(int size) {
         this.arrSize = size;
-        this.array = new Object[arrSize];
-        this.keyStore = new Object[arrSize];
+        this.array = new Store[arrSize];
         this.freeCell = this.arrSize;
     }
 
     /**
-     * KeyIterator.
-     * @return - KeyIterator.
-     */
-
-    public Iterator keyIterator() {
-        return new Iterator() {
-            int keyIterIndex = 0;
-            int expectedCount = modCount;
-            @Override
-            public boolean hasNext() {
-                return keyIterIndex < keyCountValue;
-            }
-
-            @Override
-            public K next() {
-                if (expectedCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
-                if (hasNext()) {
-                    return (K) keyStore[keyIterIndex++];
-                } else {
-                    throw new NoSuchElementException();
-                }
-            }
-        };
-    }
-
-    /**
-     * ValueIterator.
-     * @return - valueIterator.
-     */
-    public Iterator valueIterator() {
-        return new Iterator() {
-            int expectedCount = modCount;
-            int valueIterIndex = 0;
-            @Override
-            public boolean hasNext() {
-                return valueIterIndex < keyCountValue;
-            }
-
-            @Override
-            public V next() {
-                if (modCount != expectedCount) {
-                    throw new ConcurrentModificationException();
-                }
-                if (hasNext()) {
-                    int hashValue = hashFunction((K) keyStore[valueIterIndex++]);
-                    return (V) array[hashValue];
-                } else {
-                    throw new NoSuchElementException();
-                }
-            }
-        };
-    }
-
-    /**
      * Getter for arrSize.
+     *
      * @return - arrSize.
      */
     public int getArrSize() {
         return arrSize;
     }
+
     /**
      * @param key - received key.
      * @return - hashFunction for simpleHashMap.
@@ -122,9 +66,9 @@ public class SimpleHashMap<K, V> {
      * @param value - received value.
      * @return - boolean result.
      */
-    private boolean addToTheArray(int index, V value) {
+    private boolean addToTheArray(K key, V value, int index) {
         if (this.array[index] == null) {
-            this.array[index] = value;
+            this.array[index] = new Store<>(key, value);
             freeCell--;
             modCount++;
             return true;
@@ -134,14 +78,14 @@ public class SimpleHashMap<K, V> {
     }
 
     /**
-     * @param key - received key.
+     * @param key   - received key.
      * @param value - received value.
      * @return - boolean result.
      */
     public boolean insert(K key, V value) {
         checkFreeCells();
-        if (addToTheArray(hashFunction(key), value)) {
-            keyStore[keyCountValue++] = key;
+        if (addToTheArray(key, value, hashFunction(key))) {
+            amountOfItems++;
             return true;
         } else {
             return false;
@@ -153,7 +97,7 @@ public class SimpleHashMap<K, V> {
      * @return - value.
      */
     V get(K key) {
-        return (V) array[hashFunction(key)];
+        return array[hashFunction(key)].getValue();
     }
 
     /**
@@ -178,16 +122,95 @@ public class SimpleHashMap<K, V> {
     private void checkFreeCells() {
         if (freeCell == 0) {
             SimpleHashMap<K, V> simpleHashMap = new SimpleHashMap<>(arrSize * 2);
-            for (Object keys : keyStore) {
+            for (Store keys : array) {
                 if (keys != null) {
-                    int hashFunk = hashFunction((K) keys);
-                    simpleHashMap.insert((K) keys, (V) array[hashFunk]);
+                    int hashFunk = hashFunction((K) keys.getKey());
+                    simpleHashMap.insert((K) keys.getKey(), array[hashFunk].getValue());
                 }
             }
             this.arrSize = simpleHashMap.arrSize;
             this.array = simpleHashMap.array;
             this.freeCell = simpleHashMap.freeCell;
-            this.keyStore = simpleHashMap.keyStore;
         }
     }
+
+    /**
+     * KeyIterator.
+     * @return - KeyIterator.
+     */
+
+    public Iterator keyIterator() {
+        return new Iterator() {
+            int tmpValue = 0;
+            int keyIterIndex = 0;
+            int expectedCount = modCount;
+            K result = null;
+
+            @Override
+            public boolean hasNext() {
+                return keyIterIndex < amountOfItems;
+            }
+
+            @Override
+            public K next() {
+                if (expectedCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                if (hasNext()) {
+                    for (int i = tmpValue; i < array.length; i++) {
+                        if (array[i] != null) {
+                            tmpValue = i;
+                            tmpValue++;
+                            keyIterIndex++;
+                            result = array[i].getKey();
+                            break;
+                        }
+                    }
+                    return result;
+                } else {
+                    throw new NoSuchElementException();
+                }
+            }
+        };
+    }
+
+    /**
+     * ValueIterator.
+     * @return - valueIterator.
+     */
+    public Iterator valueIterator() {
+        return new Iterator() {
+            int expectedCount = modCount;
+            int tmpValue = 0;
+            int valueIterIndex = 0;
+            V result = null;
+
+            @Override
+            public boolean hasNext() {
+                return valueIterIndex < amountOfItems;
+            }
+
+            @Override
+            public V next() {
+                if (modCount != expectedCount) {
+                    throw new ConcurrentModificationException();
+                }
+                if (hasNext()) {
+                    for (int i = tmpValue; i < array.length; i++) {
+                        if (array[i] != null) {
+                            tmpValue = i;
+                            tmpValue++;
+                            valueIterIndex++;
+                            result = array[i].getValue();
+                            break;
+                        }
+                    }
+                    return result;
+                } else {
+                    throw new NoSuchElementException();
+                }
+            }
+        };
+    }
+
 }
