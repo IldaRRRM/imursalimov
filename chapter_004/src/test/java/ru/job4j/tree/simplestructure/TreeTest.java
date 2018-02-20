@@ -27,7 +27,6 @@ public class TreeTest {
         integerTree.add(4, 1);
         integerTree.add(4, 2);
         integerTree.add(2, 3);
-        integerTree.add(2, 4);
         integerTree.add(4, 7);
         integerTree.add(4, 9);
         Iterator<Integer> it = integerTree.iterator();
@@ -44,8 +43,6 @@ public class TreeTest {
         assertThat(it.next(), is(9));
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(3));
-        assertThat(it.hasNext(), is(true));
-        assertThat(it.next(), is(4));
         assertThat(it.hasNext(), is(false));
         it.next();
     }
@@ -55,9 +52,9 @@ public class TreeTest {
         integerTree.add(4, 1);
         integerTree.add(4, 2);
         assertThat(integerTree.isBinary(), is(true));
-        integerTree.add(2, 4);
-        integerTree.add(2, 5);
         integerTree.add(2, 7);
+        integerTree.add(2, 8);
+        integerTree.add(2, 9);
         assertThat(integerTree.isBinary(), is(false));
         Tree<Integer> deepDownTest = new Tree<>();
         deepDownTest.add(4, 1);

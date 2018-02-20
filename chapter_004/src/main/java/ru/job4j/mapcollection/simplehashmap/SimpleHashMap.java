@@ -10,10 +10,6 @@ import java.util.NoSuchElementException;
 
 public class SimpleHashMap<K, V> {
 
-    private int arrSize;
-
-    private int amountOfItems = 0;
-
     private int freeCell;
 
     private int modCount = 0;
@@ -25,9 +21,8 @@ public class SimpleHashMap<K, V> {
      */
     public SimpleHashMap() {
 
-        this.arrSize = 16;
-        this.array = new Store[arrSize];
-        this.freeCell = this.arrSize;
+        this.array = new Store[16];
+        this.freeCell = array.length;
 
     }
 
@@ -37,9 +32,8 @@ public class SimpleHashMap<K, V> {
      * @param size - new size.
      */
     public SimpleHashMap(int size) {
-        this.arrSize = size;
-        this.array = new Store[arrSize];
-        this.freeCell = this.arrSize;
+        this.array = new Store[size];
+        this.freeCell = array.length;
     }
 
     /**
@@ -48,7 +42,7 @@ public class SimpleHashMap<K, V> {
      * @return - arrSize.
      */
     public int getArrSize() {
-        return arrSize;
+        return this.array.length;
     }
 
     /**
@@ -57,7 +51,7 @@ public class SimpleHashMap<K, V> {
      */
     private int hashFunction(K key) {
         int promHash = key.hashCode();
-        return Math.abs(promHash % this.arrSize);
+        return Math.abs(promHash % this.array.length);
     }
 
     /**
@@ -83,12 +77,7 @@ public class SimpleHashMap<K, V> {
      */
     public boolean insert(K key, V value) {
         checkFreeCells();
-        if (addToTheArray(key, value, hashFunction(key))) {
-            amountOfItems++;
-            return true;
-        } else {
-            return false;
-        }
+        return addToTheArray(key, value, hashFunction(key));
     }
 
     /**
@@ -96,7 +85,11 @@ public class SimpleHashMap<K, V> {
      * @return - value.
      */
     V get(K key) {
-        return array[hashFunction(key)].getValue();
+        if (array[hashFunction(key)] != null) {
+            return array[hashFunction(key)].getValue();
+        } else {
+            throw new IllegalStateException("The key is null");
+        }
     }
 
     /**
@@ -107,7 +100,7 @@ public class SimpleHashMap<K, V> {
         int hashValue = hashFunction(key);
         if (array[hashValue] != null) {
             array[hashValue] = null;
-            freeCell--;
+            freeCell++;
             modCount++;
             return true;
         } else {
@@ -120,14 +113,13 @@ public class SimpleHashMap<K, V> {
      */
     private void checkFreeCells() {
         if (freeCell == 0) {
-            SimpleHashMap<K, V> simpleHashMap = new SimpleHashMap<>(arrSize * 2);
+            SimpleHashMap<K, V> simpleHashMap = new SimpleHashMap<>(array.length * 2);
             for (Store keys : array) {
                 if (keys != null) {
                     int hashFunk = hashFunction((K) keys.getKey());
                     simpleHashMap.insert((K) keys.getKey(), array[hashFunk].getValue());
                 }
             }
-            this.arrSize = simpleHashMap.arrSize;
             this.array = simpleHashMap.array;
             this.freeCell = simpleHashMap.freeCell;
         }
@@ -147,7 +139,7 @@ public class SimpleHashMap<K, V> {
 
             @Override
             public boolean hasNext() {
-                return keyIterIndex < amountOfItems;
+                return keyIterIndex < array.length - freeCell;
             }
 
             @Override
@@ -186,7 +178,7 @@ public class SimpleHashMap<K, V> {
 
             @Override
             public boolean hasNext() {
-                return valueIterIndex < amountOfItems;
+                return valueIterIndex < array.length - freeCell;
             }
 
             @Override
@@ -211,5 +203,4 @@ public class SimpleHashMap<K, V> {
             }
         };
     }
-
 }

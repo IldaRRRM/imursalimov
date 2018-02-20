@@ -22,13 +22,15 @@ public class SimpleHashMapTest {
 
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void whenWeAreTestingAGetMethodAndCompareResultWithExpectedValue() {
         SimpleHashMap<String, Integer> simpleHashMap = new SimpleHashMap<>();
         simpleHashMap.insert("Hello", 123);
         simpleHashMap.insert("world!", 214);
         assertThat(simpleHashMap.get("Hello"), is(123));
         assertThat(simpleHashMap.get("world!"), is(214));
+        assertThat(simpleHashMap.get("worsld!"), is(11));
+
     }
 
     @Test
