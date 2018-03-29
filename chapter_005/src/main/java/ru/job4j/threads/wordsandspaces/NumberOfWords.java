@@ -8,7 +8,7 @@ public class NumberOfWords implements Runnable {
         this.sentence = sentence;
     }
 
-    public void amountOfSpacesOrWords() {
+    public void amountOfWords() {
         System.out.printf("%nProgram is starting.%n");
         int valueOfWords = 0;
         for (int i = 0; i < sentence.length() - 1; i++) {
@@ -25,7 +25,7 @@ public class NumberOfWords implements Runnable {
 
     @Override
     public void run() {
-        amountOfSpacesOrWords();
+        amountOfWords();
     }
 }
 
