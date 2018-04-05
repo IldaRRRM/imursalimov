@@ -18,8 +18,11 @@ public class NumberOfWords implements Runnable {
                     && i + 1 == sentence.length() - 1) {
                 valueOfWords++;
             }
+            if (Thread.interrupted()) {
+                break;
+            }
+            System.out.printf("amount of words is %d", valueOfWords);
         }
-        System.out.printf("amount of words is %d", valueOfWords);
         System.out.printf("%n%s%n", "program is done.");
     }
 

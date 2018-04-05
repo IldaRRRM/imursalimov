@@ -2,33 +2,20 @@ package ru.job4j.threads.interrupt;
 
 public class Time implements Runnable {
 
-    private final Thread receivedThread;
-    private final long pation;
     private final long sleep;
 
-    public Time(Thread thread, long sleep) {
-        this.receivedThread = thread;
-        this.pation = 1000;
+    public Time(long sleep) {
         this.sleep = sleep;
     }
 
     public void durationOfProgram() throws InterruptedException {
-        Thread timeThread = new Thread();
-        receivedThread.start();
-        timeThread.start();
-        try {
-            long startTime = System.currentTimeMillis();
-            receivedThread.join();
-            Thread.sleep(sleep);
-            timeThread.join();
-            long executionTime = System.currentTimeMillis() - startTime;
-            if (executionTime > pation) {
-                throw new InterruptedException();
-            }
-            System.out.printf("Execution time is : %d ms.", executionTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread countCharThread = new Thread(new CountChar("Hello world, winter came and don't go out."));
+        long startTime = System.currentTimeMillis();
+        countCharThread.start();
+        Thread.sleep(sleep);
+        countCharThread.interrupt();
+        long executionTime = System.currentTimeMillis() - startTime;
+        System.out.printf("Execution time is : %d ms.", executionTime);
     }
 
     @Override
