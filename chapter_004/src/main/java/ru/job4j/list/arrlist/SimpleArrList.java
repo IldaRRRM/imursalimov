@@ -1,15 +1,17 @@
 package ru.job4j.list.arrlist;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 import ru.job4j.list.Container;
 
 import java.util.*;
-
+@ThreadSafe
 public class SimpleArrList<E> implements Container<E> {
 
-    private Object[] container = new Object[10];
-
-    private int index = 0;
-    private int modCount = 0;
+    @GuardedBy("this")
+    private volatile Object[] container = new Object[10];
+    private volatile int index = 0;
+    private volatile int modCount = 0;
 
     @Override
     public Iterator<E> iterator() {
@@ -36,11 +38,10 @@ public class SimpleArrList<E> implements Container<E> {
 
     /**
      * add to container.
-     *
      * @param model - received model.
      */
     @Override
-    public void add(E model) {
+    public synchronized void add(E model) {
         container[index++] = model;
         modCount++;
         if (container.length == index + 1) {
@@ -53,7 +54,7 @@ public class SimpleArrList<E> implements Container<E> {
      * @return - return E model.
      */
     @Override
-    public E get(int index) {
+    public synchronized E get(int index) {
         return (E) container[index];
     }
 
@@ -61,7 +62,7 @@ public class SimpleArrList<E> implements Container<E> {
      * array.
      * @return - array.
      */
-    public Object[] getContainer() {
+    public synchronized Object[] getContainer() {
         return container;
     }
 }

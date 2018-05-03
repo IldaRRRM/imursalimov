@@ -1,5 +1,7 @@
 package ru.job4j.list.linkedlist;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 import ru.job4j.list.Container;
 
 import java.util.ConcurrentModificationException;
@@ -11,8 +13,9 @@ import java.util.NoSuchElementException;
  *
  * @param <E> - generic.
  */
+@ThreadSafe
 public class PlainLinkedList<E> implements Container<E> {
-
+    @GuardedBy("this")
     private int index = 0;
 
     private int modCount = 0;
@@ -22,17 +25,17 @@ public class PlainLinkedList<E> implements Container<E> {
     private Node<E> last;
 
     /**
-     * @param <E> - generic.
+     * @param <T> - generic.
      */
-    class Node<E> {
+    class Node<T> {
 
-        E element;
+        T element;
 
-        Node<E> next;
+        Node<T> next;
 
-        Node<E> previus;
+        Node<T> previus;
 
-        Node(E element) {
+        Node(T element) {
             this.element = element;
         }
     }
@@ -75,7 +78,7 @@ public class PlainLinkedList<E> implements Container<E> {
      * @param model - received param.
      */
     @Override
-    public void add(E model) {
+    public synchronized void add(E model) {
         Node<E> eNode = new Node<>(model);
         if (first == null) {
             first = eNode;
@@ -93,7 +96,7 @@ public class PlainLinkedList<E> implements Container<E> {
      * @return - object.
      */
     @Override
-    public E get(int index) {
+    public synchronized E get(int index) {
         if (index > this.index - 1) {
             throw new IndexOutOfBoundsException();
         } else {
@@ -112,7 +115,7 @@ public class PlainLinkedList<E> implements Container<E> {
     /**
      * delete last element from LinkedList.
      */
-    public void deleteLastElement() {
+    public synchronized void deleteLastElement() {
         if (last.previus == null) {
             first = null;
             last = null;
@@ -127,7 +130,7 @@ public class PlainLinkedList<E> implements Container<E> {
     /**
      * delete first element.
      */
-    public void removeFirstElement() {
+    public synchronized void removeFirstElement() {
         if (first.next == null) {
             first = null;
             index = 0;
@@ -143,23 +146,25 @@ public class PlainLinkedList<E> implements Container<E> {
      *
      * @return - current value of index.
      */
-    public int getLastIndexFromList() {
+    public synchronized int getLastIndexFromList() {
         return index - 1;
     }
 
     /**
      * getter for firstNode.
+     *
      * @return
      */
-    public Node<E> getFirst() {
+    public synchronized Node<E> getFirst() {
         return first;
     }
 
     /**
      * getter for LastNode.
+     *
      * @return - lastNode.
      */
-    public Node<E> getLast() {
+    public synchronized Node<E> getLast() {
         return last;
     }
 }

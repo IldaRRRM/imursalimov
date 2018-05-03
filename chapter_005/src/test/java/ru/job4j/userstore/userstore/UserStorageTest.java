@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class UserStorageTest {
     @Test
     public void whenUserTransferMoneyToAnotherUserAndAmountOfMoneyIsEnoughToTransfer() throws InterruptedException {
-        for (int i = 0; i < 100_000; i++) {
+        for (int i = 0; i < 1000; i++) {
             //first Storage.
             User firstUser = new User(1, 100);
             User secondUser = new User(2, 50);

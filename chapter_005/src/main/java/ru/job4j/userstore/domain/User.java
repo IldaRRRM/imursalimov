@@ -5,7 +5,7 @@ import net.jcip.annotations.GuardedBy;
 public class User {
 
     private final int id;
-    @GuardedBy("amount")
+    @GuardedBy("this")
     private volatile int amount;
 
     public User(int id, int amount) {

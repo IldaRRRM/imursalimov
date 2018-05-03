@@ -1,5 +1,6 @@
 package ru.job4j.userstore.userstore;
 
+import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import ru.job4j.userstore.domain.User;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 
 @ThreadSafe
 public class UserStorage implements Runnable {
-
+    @GuardedBy("this")
     private final Integer fromId;
 
     private final Integer toId;
