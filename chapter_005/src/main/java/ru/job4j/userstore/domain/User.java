@@ -2,6 +2,8 @@ package ru.job4j.userstore.domain;
 
 import net.jcip.annotations.GuardedBy;
 
+import java.util.Objects;
+
 public class User {
 
     private final int id;
@@ -19,5 +21,26 @@ public class User {
 
     public int getAmount() {
         return amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+
+            return true;
+        }
+        if (!(o instanceof User)) {
+
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id
+                && amount == user.amount;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, amount);
     }
 }

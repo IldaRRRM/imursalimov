@@ -8,41 +8,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ThreadSafe
-public class UserStorage implements Runnable {
+public class UserStorage {
     @GuardedBy("this")
-    private final Integer fromId;
+    private volatile Map<Integer, User> baseOfUsers;
 
-    private final Integer toId;
-
-    private final Integer amount;
-
-    public UserStorage(Integer fromId, Integer toId, Integer amount) {
-        this.fromId = fromId;
-        this.toId = toId;
-        this.amount = amount;
+    public UserStorage() {
+        this.baseOfUsers = new HashMap<>();
     }
 
-    public boolean add(User user) {
+    public synchronized boolean add(User user) {
         if (user != null) {
-            BaseOfUsers.baseOfUsers.put(user.getId(), user);
+            baseOfUsers.put(user.getId(), user);
             return true;
         }
         return false;
     }
 
-    public boolean update(User user) {
-        return BaseOfUsers.baseOfUsers.replace(user.getId(),
-                BaseOfUsers.baseOfUsers.get(user.getId()), user);
+    public synchronized boolean update(User user) {
+        return baseOfUsers.replace(user.getId(),
+                baseOfUsers.get(user.getId()), user);
     }
 
-    public boolean delete(User user) {
-        return BaseOfUsers.baseOfUsers.remove(user.getId(), user);
+    public synchronized boolean delete(User user) {
+        return baseOfUsers.remove(user.getId(), user);
     }
 
     public synchronized boolean transfer(final int fromId, final int toId, final int amount) {
         if (isTransferPossible(fromId, toId, amount)) {
-            int amountOfSenderUser = BaseOfUsers.baseOfUsers.get(fromId).getAmount() - amount;
-            int receivedUserAmount = BaseOfUsers.baseOfUsers.get(toId).getAmount() + amount;
+            int amountOfSenderUser = baseOfUsers.get(fromId).getAmount() - amount;
+            int receivedUserAmount = baseOfUsers.get(toId).getAmount() + amount;
             update(new User(fromId, amountOfSenderUser));
             update(new User(toId, receivedUserAmount));
             return true;
@@ -50,19 +44,14 @@ public class UserStorage implements Runnable {
         return false;
     }
 
-
-    private boolean isTransferPossible(int fromId, int toId, int amount) {
-        return BaseOfUsers.baseOfUsers.get(fromId) != null
-                && BaseOfUsers.baseOfUsers.get(toId) != null
-                && BaseOfUsers.baseOfUsers.get(fromId).getAmount() >= amount;
+    private synchronized boolean isTransferPossible(int fromId, int toId, int amount) {
+        return baseOfUsers.get(fromId) != null
+                && baseOfUsers.get(toId) != null
+                && baseOfUsers.get(fromId).getAmount() >= amount;
     }
 
-    public User findUserById(int id) {
-        return BaseOfUsers.baseOfUsers.get(id);
+    public synchronized User findUserById(int id) {
+        return baseOfUsers.get(id);
     }
 
-    @Override
-    public void run() {
-        transfer(this.fromId, this.toId, this.amount);
-    }
 }
