@@ -8,16 +8,16 @@ import java.util.*;
 @ThreadSafe
 public class SimpleArrList<E> implements Container<E> {
 
-    @GuardedBy("this")
     private volatile Object[] container = new Object[10];
+    @GuardedBy("this")
     private volatile int index = 0;
     private volatile int modCount = 0;
 
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
         return new Iterator<E>() {
-            int iterInd = 0;
-            int expectedModCount = modCount;
+            volatile int  iterInd = 0;
+            volatile int expectedModCount = modCount;
             @Override
             public boolean hasNext() {
                 return iterInd < index;
@@ -63,6 +63,7 @@ public class SimpleArrList<E> implements Container<E> {
      * @return - array.
      */
     public synchronized Object[] getContainer() {
-        return container;
+        Object[] saveContainer = this.container;
+        return saveContainer;
     }
 }

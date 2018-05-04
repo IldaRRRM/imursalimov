@@ -16,13 +16,13 @@ import java.util.NoSuchElementException;
 @ThreadSafe
 public class PlainLinkedList<E> implements Container<E> {
     @GuardedBy("this")
-    private int index = 0;
+    private volatile int index = 0;
 
-    private int modCount = 0;
+    private volatile int modCount = 0;
 
-    private Node<E> first;
+    private volatile Node<E> first;
 
-    private Node<E> last;
+    private volatile Node<E> last;
 
     /**
      * @param <T> - generic.
@@ -41,7 +41,7 @@ public class PlainLinkedList<E> implements Container<E> {
     }
 
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
 
         return new Iterator<E>() {
 
