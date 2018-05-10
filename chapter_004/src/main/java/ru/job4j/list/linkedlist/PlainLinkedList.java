@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  */
 @ThreadSafe
 public class PlainLinkedList<E> implements Container<E> {
-    @GuardedBy("this")
+
     private volatile int index = 0;
 
     private volatile int modCount = 0;

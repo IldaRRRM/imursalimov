@@ -63,7 +63,6 @@ public class SimpleArrList<E> implements Container<E> {
      * @return - array.
      */
     public synchronized Object[] getContainer() {
-        Object[] saveContainer = this.container;
-        return saveContainer;
+        return Arrays.copyOf(this.container, this.container.length);
     }
 }
