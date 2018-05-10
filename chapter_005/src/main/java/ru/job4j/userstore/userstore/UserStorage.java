@@ -1,6 +1,5 @@
 package ru.job4j.userstore.userstore;
 
-import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import ru.job4j.userstore.domain.User;
 
@@ -9,7 +8,7 @@ import java.util.Map;
 
 @ThreadSafe
 public class UserStorage {
-    @GuardedBy("this")
+
     private volatile Map<Integer, User> baseOfUsers;
 
     public UserStorage() {

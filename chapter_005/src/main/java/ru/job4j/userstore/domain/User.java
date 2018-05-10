@@ -1,14 +1,14 @@
 package ru.job4j.userstore.domain;
 
+import jdk.nashorn.internal.ir.annotations.Immutable;
 import net.jcip.annotations.GuardedBy;
 
 import java.util.Objects;
 
 public class User {
-
+    @Immutable
     private final int id;
-    @GuardedBy("this")
-    private volatile int amount;
+    private final int amount;
 
     public User(int id, int amount) {
         this.id = id;
