@@ -18,15 +18,9 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             rightMove();
             leftMove();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -35,7 +29,8 @@ public class RectangleMove implements Runnable {
             this.rect.setX(this.rect.getX() + 1);
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
         }
@@ -47,10 +42,11 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
         }
     }
-
 }
+
 
