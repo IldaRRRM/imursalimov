@@ -20,7 +20,5 @@ public class Count implements Runnable {
     public void run() {
         increment();
     }
-
-
 }
 
