@@ -11,7 +11,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 @ThreadSafe
 public class ThreadPool {
     @GuardedBy("this")
-    protected volatile static boolean isWorking = true;
 
     private final List<Thread> threads;
 
@@ -32,12 +31,14 @@ public class ThreadPool {
     }
 
 
-    public synchronized void work(Runnable job) {
+    public void work(Runnable job) {
         tasks.offer(job);
     }
 
     public void shutdown() {
-        isWorking = false;
+        for (Thread workingThreads : threads) {
+            workingThreads.interrupt();
+        }
     }
 
 }
