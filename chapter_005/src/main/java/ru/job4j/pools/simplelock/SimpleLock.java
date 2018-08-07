@@ -1,4 +1,4 @@
-package ru.job4j.notify.simplelock;
+package ru.job4j.pools.simplelock;
 
 
 import java.util.concurrent.locks.Lock;

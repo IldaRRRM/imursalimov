@@ -1,6 +1,4 @@
-package ru.job4j.notify.findtext.findersimplementations;
-
-import ru.job4j.notify.findtext.ParallelSearch;
+package ru.job4j.pools.findtext.findersimplementations;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -13,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
 public class ExtensionsFinder extends SimpleFileVisitor<Path> {
 
 
-    private List<String> extensions;
+    private final List<String> extensions;
 
     private final BlockingQueue<String> pathToFiles;
 

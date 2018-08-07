@@ -1,4 +1,4 @@
-package ru.job4j.notify.threadpool;
+package ru.job4j.pools.threadpool;
 
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;

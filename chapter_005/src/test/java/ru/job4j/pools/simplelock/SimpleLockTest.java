@@ -1,8 +1,6 @@
-package ru.job4j.notify.simplelock;
+package ru.job4j.pools.simplelock;
 
 import org.junit.Test;
-
-import java.util.concurrent.locks.Lock;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;

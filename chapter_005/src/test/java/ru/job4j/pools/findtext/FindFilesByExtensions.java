@@ -1,7 +1,7 @@
-package ru.job4j.notify.findtext;
+package ru.job4j.pools.findtext;
 
 import org.junit.Test;
-import ru.job4j.notify.findtext.findersimplementations.ExtensionsFinder;
+import ru.job4j.pools.findtext.findersimplementations.ExtensionsFinder;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,10 +1,8 @@
-package ru.job4j.notify.threadpool;
-
-import org.junit.Test;
+package ru.job4j.pools.threadpool;
 
 public class ThreadPoolTest {
 
-    @Test
+//    @Test
     public void threadPoolTest() throws InterruptedException {
         ThreadPool threadPool = new ThreadPool();
         threadPool.work(new Runnable() {
@@ -34,7 +32,7 @@ public class ThreadPoolTest {
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        break;
                     }
                     System.out.println(System.currentTimeMillis());
                 }

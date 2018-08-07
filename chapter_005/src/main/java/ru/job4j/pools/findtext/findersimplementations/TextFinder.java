@@ -1,4 +1,4 @@
-package ru.job4j.notify.findtext.findersimplementations;
+package ru.job4j.pools.findtext.findersimplementations;
 
 import java.io.IOException;
 import java.nio.file.*;

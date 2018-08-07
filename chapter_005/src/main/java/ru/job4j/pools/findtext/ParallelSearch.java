@@ -1,9 +1,9 @@
-package ru.job4j.notify.findtext;
+package ru.job4j.pools.findtext;
 
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
-import ru.job4j.notify.findtext.findersimplementations.ExtensionsFinder;
-import ru.job4j.notify.findtext.findersimplementations.TextFinder;
+import ru.job4j.pools.findtext.findersimplementations.ExtensionsFinder;
+import ru.job4j.pools.findtext.findersimplementations.TextFinder;
 
 import java.io.IOException;
 import java.nio.file.Files;

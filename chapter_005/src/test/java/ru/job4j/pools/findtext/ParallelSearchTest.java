@@ -1,4 +1,4 @@
-package ru.job4j.notify.findtext;
+package ru.job4j.pools.findtext;
 
 import org.junit.Test;
 

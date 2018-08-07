@@ -8,6 +8,7 @@ import java.util.List;
 
 @ThreadSafe
 public class Consumer implements Runnable {
+
     private volatile List<Object> objectsFromQue;
 
     @GuardedBy("this")
@@ -20,7 +21,7 @@ public class Consumer implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             Object object = simpleBlockingQueue.poll();
             objectsFromQue.add(object);
             System.out.println("добавлен " + object);
