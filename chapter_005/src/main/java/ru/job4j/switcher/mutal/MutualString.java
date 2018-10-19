@@ -1,11 +1,10 @@
 package ru.job4j.switcher.mutal;
 
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MutualString implements Mutual<String> {
 
-    private final Lock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock();
     private volatile String resultStringOfSwithcer;
 
 
@@ -29,6 +28,11 @@ public class MutualString implements Mutual<String> {
     @Override
     public String getResult() {
         return resultStringOfSwithcer;
+    }
+
+    @Override
+    public ReentrantLock getLockObject() {
+        return lock;
     }
 }
 
