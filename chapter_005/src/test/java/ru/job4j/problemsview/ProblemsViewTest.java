@@ -2,6 +2,8 @@ package ru.job4j.problemsview;
 
 import org.junit.Test;
 
+import java.util.concurrent.Callable;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 

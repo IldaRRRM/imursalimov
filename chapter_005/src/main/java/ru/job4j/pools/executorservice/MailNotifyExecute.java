@@ -39,14 +39,11 @@ public class MailNotifyExecute extends Thread {
     public void run() {
         while (true) {
             if (!usersToEmail.isEmpty()) {
-                pool.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.printf("%s is started %n", Thread.currentThread().getName());
-                        emailSend();
-                        System.out.printf("%s is finished %n", Thread.currentThread().getName());
+                pool.submit(() -> {
+                    System.out.printf("%s is started %n", Thread.currentThread().getName());
+                    emailSend();
+                    System.out.printf("%s is finished %n", Thread.currentThread().getName());
 
-                    }
                 });
                 if (usersToEmail.isEmpty() && isFinsih && pool.isTerminated()) {
                     break;

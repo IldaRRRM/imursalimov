@@ -1,6 +1,5 @@
 package ru.job4j.nonblockingalgoritm;
 
-import org.junit.Assert;
 import org.junit.Test;
 import ru.job4j.nonblockingalgoritm.exception.OptimisticException;
 
@@ -10,7 +9,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class HashBaseTest {
-    HashBase hashBase = new HashBase();
+
+    private final HashBase hashBase = new HashBase();
 
 
     @Test
@@ -29,13 +29,9 @@ public class HashBaseTest {
         Base base = new Base(7, 0);
         hashBase.add(base);
         try {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    hashBase.update(base);
-                }
-            }).start();
             hashBase.update(base);
+            new Thread(() -> hashBase.update(base)).start();
+//            new Thread(() -> hashBase.update(base)).start();
         } catch (OptimisticException msg) {
             System.out.println("I know");
         }
