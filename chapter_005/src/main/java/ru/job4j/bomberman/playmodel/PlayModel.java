@@ -9,7 +9,7 @@ public abstract class PlayModel {
     private final Cell cell;
     private final String name;
 
-    protected PlayModel(String name, Cell cell) {
+    PlayModel(String name, Cell cell) {
         this.cell = cell;
         this.name = name;
     }

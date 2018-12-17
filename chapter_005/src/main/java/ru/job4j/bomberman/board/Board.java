@@ -1,7 +1,6 @@
 package ru.job4j.bomberman.board;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import ru.job4j.bomberman.exception.IllegalMoveException;
 import ru.job4j.bomberman.move.MoveOnTheBoard;
 import ru.job4j.bomberman.playmodel.PlayModel;
@@ -9,9 +8,9 @@ import ru.job4j.bomberman.playmodel.PlayModel;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Slf4j
 public class Board implements MoveOnTheBoard {
 
-    private final static Logger LOG = LoggerFactory.getLogger(Board.class);
 
     private final Integer rows;
     private final Integer columns;
@@ -35,7 +34,7 @@ public class Board implements MoveOnTheBoard {
     }
 
 
-    public boolean move(Cell source, Cell dist) throws InterruptedException, IllegalMoveException {
+    public boolean move(Cell source, Cell dist) throws InterruptedException {
         if (!board[source.getY()][source.getX()].isLocked()) {
             board[source.getY()][source.getX()].lock();
         }
@@ -43,11 +42,11 @@ public class Board implements MoveOnTheBoard {
         try {
             if (checkMoveAboutSource(source, dist) && checkArrayOutBound(dist, rows, columns)) {
                 result = board[dist.getY()][dist.getX()].tryLock(500, TimeUnit.MILLISECONDS);
-                LOG.info("Cell {} has been locked", dist);
+                log.info("Cell {} has been locked", dist);
             }
             if (result) {
                 board[source.getY()][source.getX()].unlock();
-                LOG.info("Source Cell {} has been unlocked", source);
+                log.info("Source Cell {} has been unlocked", source);
             }
 
         } catch (IllegalMoveException illegal) {
@@ -57,10 +56,9 @@ public class Board implements MoveOnTheBoard {
     }
 
 
-
-    public boolean addPlayModelToBoard(PlayModel playModel) throws InterruptedException, IllegalMoveException {
+    public boolean addPlayModelToBoard(PlayModel playModel) throws IllegalMoveException {
         if (checkArrayOutBound(playModel.getCell(), rows, columns) && !board[playModel.getCell().getY()][playModel.getCell().getX()].isLocked()) {
-            LOG.info("PlayModel {} has been added on cell {} ", playModel.getName(), playModel.getCell());
+            log.info("PlayModel {} has been added on cell {} ", playModel.getName(), playModel.getCell());
             board[playModel.getCell().getY()][playModel.getCell().getX()].lock();
             return true;
         }

@@ -1,25 +1,26 @@
 package ru.job4j.bomberman.application;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import ru.job4j.bomberman.application.modelthreads.HeroThread;
+import ru.job4j.bomberman.application.modelthreads.MonstersThread;
+import ru.job4j.bomberman.application.modelthreads.ObstructionThread;
 import ru.job4j.bomberman.board.Board;
 import ru.job4j.bomberman.board.Cell;
-import ru.job4j.bomberman.exception.IllegalMoveException;
-import ru.job4j.bomberman.playmodel.Hero;
 import ru.job4j.bomberman.playmodel.PlayModel;
 
 import java.util.Map;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
+@Slf4j
 public class BomberApplication implements Runnable {
 
-    private final static Logger APPLOG = LoggerFactory.getLogger(BomberApplication.class);
 
-    private final ReentrantLock lock = new ReentrantLock();
     private final Board board;
-    private final BlockingQueue<Cell> dists = new LinkedBlockingQueue<>();
+    private final ConcurrentHashMap<PlayModel, Cell> monstersDists = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, PlayModel> sourceModels = new ConcurrentHashMap<>();
+    private final BlockingQueue<Cell> heroDists = new LinkedBlockingQueue<>();
 
     public BomberApplication(Board board) {
         this.board = board;
@@ -29,10 +30,15 @@ public class BomberApplication implements Runnable {
         return board;
     }
 
+    public boolean addHeroStep(Cell dist) {
+        return heroDists.offer(dist);
+    }
+
 
     public boolean addPlayModelToGame(PlayModel playModel) {
         for (Map.Entry<String, PlayModel> modelInGame : sourceModels.entrySet()) {
             if (modelInGame.getValue().getCell().equals(playModel.getCell())) {
+                log.info("{} has not been added", playModel.getName());
                 return false;
             }
         }
@@ -40,67 +46,25 @@ public class BomberApplication implements Runnable {
         return true;
     }
 
-    private void addPlayModelToBoard(PlayModel hero) throws InterruptedException, IllegalMoveException {
-        board.addPlayModelToBoard(hero);
-        sourceModels.put(hero.getName(), hero);
-    }
 
     @Override
     public void run() {
 
-        Thread hero1 = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
+        ObstructionThread obstructionThread = new ObstructionThread(sourceModels, board);
 
-                PlayModel hero = sourceModels.get("Hero");
-                Cell randomMove = board.makeRandomMove(hero.getCell());
-                APPLOG.info("new Hero Dist is {}", randomMove);
-                dists.offer(randomMove);
+        MonstersThread monsters = new MonstersThread(sourceModels, board, monstersDists);
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+        HeroThread heroThread = new HeroThread(heroDists, sourceModels, board);
 
-        });
 
-        Thread boardThread = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                lock.lock();
-                PlayModel hero = sourceModels.get("Hero");
+        obstructionThread.start();
+        monsters.start();
+        heroThread.start();
 
-                try {
-                    Cell randomCell = dists.poll(2000, TimeUnit.MILLISECONDS);
-                    boolean move = getBoard().move(hero.getCell(), randomCell);
-                    if (move) {
-                        APPLOG.info("New {} source cell is {}", hero.getName(), randomCell);
-                        addPlayModelToBoard(new Hero("Hero", randomCell));
-                    } else {
-                        APPLOG.info("Bad step");
-                        boolean goodMove = false;
-                        while (!goodMove) {
-                            Cell randomMove = board.makeRandomMove(hero.getCell());
-                            boolean move1 = getBoard().move(hero.getCell(), randomMove);
-                            if (move1) {
-                                goodMove = true;
-                                APPLOG.info("New {} source cell is {}", hero.getName(), randomCell);
-                                addPlayModelToBoard(new Hero("Hero", randomCell));
-                            }
-                        }
-                    }
-                } catch (InterruptedException | IllegalMoveException e) {
-                    e.printStackTrace();
-                }
-                lock.unlock();
-            }
-        });
-
-        hero1.start();
-        boardThread.start();
         try {
-            hero1.join();
-            boardThread.join();
+            obstructionThread.join();
+            monsters.join();
+            heroThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

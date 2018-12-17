@@ -40,12 +40,7 @@ public class BoardTest {
     public void whenMoveHeroIsImpossible() throws InterruptedException, IllegalMoveException {
         Hero hero = new Hero("Hero", new Cell(0, 0));
         board.addPlayModelToBoard(hero);
-        try {
-            boolean move = board.move(hero.getCell(), new Cell(2, 0));
-        } catch (IllegalMoveException illeg) {
-            Cell randomCell = board.makeRandomMove(hero.getCell());
-            board.move(hero.getCell(), randomCell);
-        }
+        boolean move = board.move(hero.getCell(), new Cell(2, 0));
     }
 
 
