@@ -16,9 +16,11 @@ import java.util.regex.Pattern;
 public class AnswerBot implements ReadLineFromFile {
 
     private final String pathToFile;
+    private final Map<Integer, String> sentencesFromFile;
 
-    public AnswerBot(String pathToFile) {
+    public AnswerBot(String pathToFile) throws IOException {
         this.pathToFile = pathToFile;
+        this.sentencesFromFile = getSentencesFromFile();
     }
 
     /**
@@ -26,7 +28,6 @@ public class AnswerBot implements ReadLineFromFile {
      */
     @Override
     public String getLineFromFile() throws IOException {
-        Map<Integer, String> sentencesFromFile = getSentencesFromFile();
         int bound = sentencesFromFile.keySet().size();
         return sentencesFromFile.get(new Random().nextInt(bound));
     }

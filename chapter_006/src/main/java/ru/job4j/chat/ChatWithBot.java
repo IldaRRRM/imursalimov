@@ -5,6 +5,8 @@ import ru.job4j.chat.answerbot.AnswerBot;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 @Slf4j
@@ -12,28 +14,30 @@ public class ChatWithBot {
 
     private final AnswerBot bot;
     private final InputStream userInputStream;
+    private final OutputStream outputStream;
 
-    public ChatWithBot(AnswerBot bot, InputStream userInputStream) {
+    public ChatWithBot(AnswerBot bot, InputStream userInputStream, OutputStream outputStream) {
         this.bot = bot;
         this.userInputStream = userInputStream;
-
+        this.outputStream = outputStream;
     }
 
     public void startApp() throws IOException {
         String currentUserInput;
         boolean botWorking = true;
-        try (Scanner userInput = new Scanner(userInputStream)) {
-            log.info("Введите своё имя: ");
+        try (Scanner userInput = new Scanner(userInputStream);
+             PrintWriter writer = new PrintWriter(outputStream)) {
+            writeToOutStream(writer, "Введите своё имя: ");
             String userName = userInput.nextLine();
-            log.debug("Пользователь ввёл своё имя - {}", userName);
-            log.info("Начинается чат с ботом. Для старта диалога с ботом введите любое предложение");
+            writeToOutStream(writer, "Пользователь ввёл своё имя - " + userName);
+            writeToOutStream(writer, "Начинается чат с ботом. Для старта диалога с ботом введите любое предложение");
             do {
                 currentUserInput = userInput.nextLine();
-                log.info("{} говорит: {}", userName, currentUserInput);
+                writeToOutStream(writer, userName + " говорит: " + currentUserInput);
                 botWorking = switchBotWorking(currentUserInput, botWorking);
                 if (botWorking) {
                     String answerFromBot = bot.getLineFromFile();
-                    log.info("Бот отвечает: {}", answerFromBot);
+                    writeToOutStream(writer, "Бот отвечает: " + answerFromBot);
                 }
             } while (!currentUserInput.toUpperCase().trim().equals("ЗАКОНЧИТЬ"));
         }
@@ -59,5 +63,11 @@ public class ChatWithBot {
                 break;
         }
         return currentFlag;
+    }
+
+    private void writeToOutStream(PrintWriter writer, String sentence) {
+        writer.println(sentence);
+        writer.flush();
+        log.debug(sentence);
     }
 }
