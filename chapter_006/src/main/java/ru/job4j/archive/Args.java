@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class Args {
     @Getter
-    private final String argsString;
+    protected final String argsString;
 
     public Args(String... args) {
         this.argsString = Arrays.toString(args).replaceAll(",", "");
@@ -75,7 +75,7 @@ public class Args {
      * @param argsString source String
      * @return Matcher
      */
-    private Matcher getMatcher(String regex, String argsString) {
+    protected Matcher getMatcher(String regex, String argsString) {
         Pattern excludeStrings = Pattern.compile(regex);
         return excludeStrings.matcher(argsString);
     }
