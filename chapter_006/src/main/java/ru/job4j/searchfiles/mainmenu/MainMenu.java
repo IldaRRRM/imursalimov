@@ -5,11 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MainMenu {
     public void initMenu() {
-        log.info("Подсказка по ключам:" + System.lineSeparator() +
-                "-d - директория, в которой начинать поиск." + System.lineSeparator() +
-                "-n - имя файла, маска, либо регулярное выражение." + System.lineSeparator() +
-                "-m - искать по маске, либо -f - полное совпадение имени. -r регулярное выражение." + System.lineSeparator() +
-                "-o - результат записать в файл." + System.lineSeparator());
+        log.info("Подсказка по ключам:" + System.lineSeparator()
+                + "-d - директория, в которой начинать поиск." + System.lineSeparator()
+                + "-n - имя файла, маска, либо регулярное выражение." + System.lineSeparator()
+                + "-m - искать по маске, либо -f - полное совпадение имени. -r регулярное выражение." + System.lineSeparator()
+                + "-o - результат записать в файл." + System.lineSeparator());
     }
 }
 
