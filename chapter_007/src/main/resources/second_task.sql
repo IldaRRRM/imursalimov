@@ -24,7 +24,7 @@
 
     SELECT * FROM product AS a INNER JOIN type as b ON a.type_id = b.id where b.name = 'СЫР';
 	SELECT * FROM product where name ~ 'МОРОЖЕНОЕ';
-	SELECT * FROM product where EXTRACT(MONTH from expired_date) = 9;
+	SELECT * FROM product where extract(MONTH from CURRENT_date) + 1  = extract(MONTH from expired_date);
 	SELECT * FROM product where price = (SELECT max(price) from product);
     SELECT b.name, COUNT(a.type_id) FROM product AS a INNER JOIN type AS b ON a.type_id = b.id where b.name = 'СЫР' group by a.type_id, b.name; 
     SELECT a.id, a.name, a.expired_date, a.price, b.name as type_name FROM product AS a INNER JOIN type as b ON a.type_id = b.id where b.name in ('СЫР', 'МОЛОКО');  
