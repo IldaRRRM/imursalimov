@@ -4,11 +4,6 @@ package ru.job4j.tracker;
  */
 public class StartUi {
     /**
-     * empty constructor.
-     */
-    public StartUi() {
-    }
-    /**
      * private field input is used for read values.
      */
     private Input input;

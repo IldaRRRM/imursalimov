@@ -10,7 +10,7 @@ public class StubInput implements Input {
     /**
      * answers for input.
      */
-    private ArrayList<String> answers = new ArrayList<>();
+    private List<String> answers;
     /**
      * position for answers.
      */
@@ -21,6 +21,7 @@ public class StubInput implements Input {
     public StubInput(ArrayList<String> answers) {
         this.answers = answers;
     }
+
     public String ask(String question) {
         return answers.get(position++);
     }

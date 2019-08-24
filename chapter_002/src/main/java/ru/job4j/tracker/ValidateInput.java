@@ -6,10 +6,12 @@ import java.util.List;
  * public class ValidateInput includes method ask, which used for correct work with our tracker application.
  */
 public class ValidateInput extends ConsoleInput {
+
     /**
      * method ask is used for working in menu with user.
+     *
      * @param question - question.
-     * @param range - range of our menu.
+     * @param range    - range of our menu.
      * @return - return our key.
      */
     public int ask(String question, List<Integer> range) {

@@ -15,8 +15,7 @@ public class MenuTracker {
     /**
      * range of menu items.
      */
-    private ArrayList<Integer> range = new ArrayList<>();
-    //private int[] range = new int[]{1, 2, 3, 4, 5, 6, 7};
+    private List<Integer> range = new ArrayList<>();
     /**
      * private boolean exit - is used for "while" our menu.
      */
@@ -43,7 +42,7 @@ public class MenuTracker {
     /**
      * private field tracker stores array of items.
      */
-    private Tracker tracker;
+    private ITracker tracker;
     /**
      * array actions is used for store items for our application.
      */
@@ -59,7 +58,7 @@ public class MenuTracker {
      * @param input   - received input.
      * @param tracker - received tracker.
      */
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -81,10 +80,11 @@ public class MenuTracker {
      * Fill range of Menu.
      */
     public void fillRangeOfMenu() {
-        Integer[] menuKey = new Integer[] {1, 2, 3, 4, 5, 6, 7};
+        Integer[] menuKey = new Integer[]{1, 2, 3, 4, 5, 6, 7};
         List<Integer> integerMenuKey = Arrays.asList(menuKey);
         range.addAll(integerMenuKey);
     }
+
     /**
      * Select key for working with menu.
      */
@@ -109,7 +109,7 @@ public class MenuTracker {
     public class AddNewItem extends BaseAction {
         /**
          * @param name - name.
-         * @param key - key.
+         * @param key  - key.
          */
         public AddNewItem(String name, int key) {
             super(name, key);
@@ -120,7 +120,7 @@ public class MenuTracker {
          * @param input   - used to enter.
          * @param tracker - received tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String name = input.ask("Please, enter the name: ");
             String desc = input.ask("Please, enter the description: ");
             Item item = new Item(name, desc, "23");
@@ -144,7 +144,7 @@ public class MenuTracker {
          * @param input   - used to enter.
          * @param tracker - received tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             int index = 0;
             for (Item item : tracker.findAll()) {
                 index += 1;
@@ -167,7 +167,7 @@ public class MenuTracker {
          * @param input   - used to enter.
          * @param tracker - received tracker.
          */
-        public void execute(Input input, Tracker tracker) throws NullPointerException {
+        public void execute(Input input, ITracker tracker) throws NullPointerException {
             boolean exit = true;
             do {
                 try {
@@ -181,7 +181,7 @@ public class MenuTracker {
                     String newDesc = input.ask("Enter the new Desc: ");
                     Item item = new Item(newName, newDesc, "23");
                     item.setId(tracker.findById(oldId).getId());
-                    tracker.update(item);
+                    tracker.replace(item.getId(), item);
                     exit = false;
                 } catch (NullPointerException nfe) {
                     System.out.println("This id is not found.");
@@ -202,20 +202,19 @@ public class MenuTracker {
          * @param input   - used to enter.
          * @param tracker - received tracker.
          */
-        public void execute(Input input, Tracker tracker) {
-            boolean l = true;
+        public void execute(Input input, ITracker tracker) {
             try {
-                while (l) {
+                while (true) {
                     String answer = input.ask("Would you like to search by name or Id (Name/Id): ");
                     if (answer.equals("Name")) {
                         String delName = input.ask("Enter the name of id, which you want to delete: ");
-                        tracker.delete(tracker.findByName(delName));
+                        tracker.delete(tracker.findByName(delName).getId());
                         System.out.println("The Item has been deleted.");
                         break;
                     } else if (answer.equals("Id")) {
                         String delId = input.ask("Enter the item id, which you want to delete: ");
                         tracker.findById(delId);
-                        tracker.delete(tracker.findById(delId));
+                        tracker.delete(tracker.findById(delId).getId());
                         System.out.println("The Item has been deleted.");
                         break;
                     } else {
@@ -242,7 +241,7 @@ public class MenuTracker {
          * @param input   - used to enter.
          * @param tracker - received tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             try {
                 String answerId = input.ask("Please, enter the id of application: ");
                 System.out.println("The name is: " + tracker.findById(answerId).getName() + "\n" + "Description is: "
@@ -266,7 +265,7 @@ public class MenuTracker {
          * @param input   - used to enter.
          * @param tracker - received tracker.
          */
-        public void execute(Input input, Tracker tracker) throws NullPointerException {
+        public void execute(Input input, ITracker tracker) throws NullPointerException {
             boolean exit = true;
             while (exit) {
                 try {
@@ -304,17 +303,21 @@ public class MenuTracker {
          * @param input   - used to enter.
          * @param tracker - received tracker.
          */
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             boolean ex = true;
             while (ex) {
                 String answer = input.ask("Do you want to quit? (Y/N): ");
-                if (answer.equals("Y")) {
-                    ex = false;
-                    setExit(false);
-                } else if (answer.equals("N")) {
-                    ex = false;
-                } else {
-                    System.out.println("Enter the correct answer.");
+                switch (answer) {
+                    case "Y":
+                        ex = false;
+                        setExit(false);
+                        break;
+                    case "N":
+                        ex = false;
+                        break;
+                    default:
+                        System.out.println("Enter the correct answer.");
+                        break;
                 }
             }
         }
