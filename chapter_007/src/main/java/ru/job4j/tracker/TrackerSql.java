@@ -83,17 +83,27 @@ public class TrackerSql implements ITracker, AutoCloseable {
     }
 
     @Override
-    public void add(Item item) {
+    public boolean add(Item item) {
+        createItemTableIfNotExists();
         try (PreparedStatement statement = this.connection.prepareStatement(
-                "INSERT INTO item (id, itemName, descr, created, category_id, itemuser_id) VALUES (?, ?, ?, ?, ?, ?);")) {
-            statement.setInt(1, Integer.parseInt(item.getId()));
-            statement.setString(2, item.getName());
-            statement.setString(3, item.getDesc());
-            statement.setDate(4, Date.valueOf(item.getCreated()));
-            statement.setInt(5, item.getCategoryId());
-            statement.setInt(6, item.getUser_id());
+                "INSERT INTO item (itemName, descr, created, category_id, itemuser_id) VALUES (?, ?, ?, ?, ?);")) {
+            statement.setString(1, item.getName());
+            statement.setString(2, item.getDesc());
+            statement.setDate(3, Date.valueOf(item.getCreated()));
+            statement.setInt(4, item.getCategoryId());
+            statement.setInt(5, item.getUserId());
             statement.execute();
-            log.info("Item {} with id = {} has been added", item.getName(), item.getId());
+            log.info("Item {} has been added", item.getName());
+            return true;
+        } catch (SQLException e) {
+            log.error(e.getMessage(), e);
+        }
+        return false;
+    }
+
+    private void createItemTableIfNotExists() {
+        try (PreparedStatement st = this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS item (id SERIAL PRIMARY KEY, itemName VARCHAR(80), descr VARCHAR(80), created DATE, category_id INT REFERENCES category(id), itemUser_id INT REFERENCES itemUser(id))")) {
+            st.execute();
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
@@ -101,7 +111,8 @@ public class TrackerSql implements ITracker, AutoCloseable {
 
 
     @Override
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
+        boolean result = false;
         try (PreparedStatement updateStatement = this.connection.prepareStatement(
                 "UPDATE item SET id = ?, itemname = ?, descr = ?, created = ?, category_id = ?, itemuser_id = ? WHERE id = ?")) {
             updateStatement.setInt(7, Integer.parseInt(id));
@@ -110,23 +121,29 @@ public class TrackerSql implements ITracker, AutoCloseable {
             updateStatement.setString(3, item.getDesc());
             updateStatement.setDate(4, Date.valueOf(item.getCreated()));
             updateStatement.setInt(5, item.getCategoryId());
-            updateStatement.setInt(6, item.getUser_id());
+            updateStatement.setInt(6, item.getUserId());
             updateStatement.execute();
+            log.info("replace item with {} for {} was success", id, item);
+            result = true;
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
+        return result;
     }
 
     @Override
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean result = false;
         try (PreparedStatement deleteStatement = this.connection.prepareStatement(
                 "DELETE FROM item WHERE id = ?")) {
             deleteStatement.setInt(1, Integer.parseInt(id));
             deleteStatement.execute();
             log.info("Item with id = {} has been deleted", id);
+            result = true;
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
+        return result;
     }
 
     @Override
@@ -145,7 +162,7 @@ public class TrackerSql implements ITracker, AutoCloseable {
     @Override
     public Item findByName(String key) {
         try (PreparedStatement findByName = this.connection.prepareStatement(
-                "SELECT * FROM item WHERE name = ?")) {
+                "SELECT * FROM item WHERE itemname = ?")) {
             findByName.setString(1, key);
             findByName.execute();
 
@@ -153,7 +170,6 @@ public class TrackerSql implements ITracker, AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -174,17 +190,18 @@ public class TrackerSql implements ITracker, AutoCloseable {
     private Item getItem(PreparedStatement preparedStatement) {
         Item findestItem = null;
         try (ResultSet resultSet = preparedStatement.getResultSet()) {
-            resultSet.next();
-
-            String name = resultSet.getString(2);
-            Integer item_id = resultSet.getInt(1);
-            String descr = resultSet.getString(3);
-            Date itemDate = resultSet.getDate(4);
-            Integer category_id = resultSet.getInt(5);
-            Integer itemUser_id = resultSet.getInt(6);
-
-            findestItem = new Item(item_id.toString(), name, descr, itemDate.toLocalDate(), category_id, itemUser_id);
-            log.info("Find Item = {}", findestItem);
+            if (resultSet.next()) {
+                String name = resultSet.getString(2);
+                Integer itemId = resultSet.getInt(1);
+                String descr = resultSet.getString(3);
+                Date itemDate = resultSet.getDate(4);
+                Integer categoryId = resultSet.getInt(5);
+                Integer itemUserId = resultSet.getInt(6);
+                findestItem = new Item(itemId.toString(), name, descr, itemDate.toLocalDate(), categoryId, itemUserId);
+                log.info("Find Item = {}", findestItem);
+            } else {
+                log.error("Item with id not found");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -197,12 +214,12 @@ public class TrackerSql implements ITracker, AutoCloseable {
         try (ResultSet resultSet = preparedStatement.getResultSet()) {
             while (resultSet.next()) {
                 String name = resultSet.getString(2);
-                Integer item_id = resultSet.getInt(1);
+                Integer itemId = resultSet.getInt(1);
                 String descr = resultSet.getString(3);
                 Date itemDate = resultSet.getDate(4);
-                Integer category_id = resultSet.getInt(5);
-                Integer itemUser_id = resultSet.getInt(6);
-                Item oneOfItems = new Item(item_id.toString(), name, descr, itemDate.toLocalDate(), category_id, itemUser_id);
+                Integer categoryId = resultSet.getInt(5);
+                Integer itemUserId = resultSet.getInt(6);
+                Item oneOfItems = new Item(String.valueOf(itemId), name, descr, itemDate.toLocalDate(), categoryId, itemUserId);
                 log.debug("Find Item = {}", oneOfItems);
                 allItems.add(oneOfItems);
             }

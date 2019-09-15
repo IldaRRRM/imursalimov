@@ -30,7 +30,7 @@ public class Item {
 
     private Integer categoryId;
 
-    private Integer user_id;
+    private Integer userId;
 
     /**
      * @param id      - id.
@@ -38,14 +38,28 @@ public class Item {
      * @param desc    - description.
      * @param created - time, when it was created.
      */
-    public Item(String id, String name, String desc, LocalDate created, Integer category_id, Integer user_id) {
+    public Item(String id, String name, String desc, LocalDate created, Integer categoryId, Integer userId) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.created = created;
-        this.categoryId = category_id;
-        this.user_id = user_id;
+        this.categoryId = categoryId;
+        this.userId = userId;
     }
+
+    /**
+     * @param name    - name.
+     * @param desc    - description.
+     * @param created - time, when it was created.
+     */
+    public Item(String name, String desc, LocalDate created, Integer categoryId, Integer userId) {
+        this.name = name;
+        this.desc = desc;
+        this.created = created;
+        this.categoryId = categoryId;
+        this.userId = userId;
+    }
+
 
     /**
      * empty constructor.
@@ -106,8 +120,8 @@ public class Item {
         return categoryId;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
 
@@ -127,31 +141,36 @@ public class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+
+            return true;
+        } else if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Item item = (Item) o;
-        return Objects.equals(id, item.id) &&
-                Objects.equals(name, item.name) &&
-                Objects.equals(desc, item.desc) &&
-                Objects.equals(created, item.created) &&
-                Objects.equals(categoryId, item.categoryId) &&
-                Objects.equals(user_id, item.user_id);
+        return Objects.equals(id, item.id)
+                && Objects.equals(name, item.name)
+                && Objects.equals(desc, item.desc)
+                && Objects.equals(created, item.created)
+                && Objects.equals(categoryId, item.categoryId)
+                && Objects.equals(userId, item.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, desc, created, categoryId, user_id);
+        return Objects.hash(id, name, desc, created, categoryId, userId);
     }
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", desc='" + desc + '\'' +
-                ", created=" + created +
-                ", categoryId=" + categoryId +
-                ", user_id=" + user_id +
-                '}';
+        return "Item{"
+                + "id='" + id + '\''
+                + ", name='" + name + '\''
+                + ", desc='" + desc + '\''
+                + ", created=" + created
+                + ", categoryId=" + categoryId
+                + ", userId=" + userId
+                + '}';
     }
 }

@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface ITracker {
 
-    void add(Item item);
+    boolean add(Item item);
 
-    void replace(String id, Item item);
+    boolean replace(String id, Item item);
 
-    void delete(String id);
+    boolean delete(String id);
 
     List<Item> findAll();
 

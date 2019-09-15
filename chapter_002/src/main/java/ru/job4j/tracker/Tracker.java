@@ -25,25 +25,30 @@ public class Tracker implements ITracker {
      * @param item - received.
      * @return - new item.
      */
-    public void add(Item item) {
+    public boolean add(Item item) {
         item.setId(generateId());
-        items.add(item);
+        return items.add(item);
     }
 
     @Override
-    public void replace(String id, Item item) {
-
+    public boolean replace(String id, Item item) {
+        Item replacedItem = findById(id);
+        items.remove(replacedItem);
+        item.setId(replacedItem.getId());
+        return items.add(item);
     }
 
     @Override
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean deleteResult = false;
         for (Item item1 : items) {
             if (item1.getId().equals(id)) {
-                items.remove(item1);
+                deleteResult = items.remove(item1);
                 break;
             }
 
         }
+        return deleteResult;
     }
 
 
@@ -94,8 +99,8 @@ public class Tracker implements ITracker {
     /**
      * @return list of items.
      */
-    public ArrayList<Item> findAll() {
-        return new ArrayList<>(items);
+    public List<Item> findAll() {
+        return items;
     }
 
     /**
