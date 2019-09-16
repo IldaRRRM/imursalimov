@@ -191,12 +191,12 @@ public class TrackerSql implements ITracker, AutoCloseable {
         Item findestItem = null;
         try (ResultSet resultSet = preparedStatement.getResultSet()) {
             if (resultSet.next()) {
-                String name = resultSet.getString(2);
-                Integer itemId = resultSet.getInt(1);
-                String descr = resultSet.getString(3);
-                Date itemDate = resultSet.getDate(4);
-                Integer categoryId = resultSet.getInt(5);
-                Integer itemUserId = resultSet.getInt(6);
+                String name = resultSet.getString("itemname");
+                Integer itemId = resultSet.getInt("id");
+                String descr = resultSet.getString("descr");
+                Date itemDate = resultSet.getDate("created");
+                Integer categoryId = resultSet.getInt("category_id");
+                Integer itemUserId = resultSet.getInt("itemuser_id");
                 findestItem = new Item(itemId.toString(), name, descr, itemDate.toLocalDate(), categoryId, itemUserId);
                 log.info("Find Item = {}", findestItem);
             } else {
@@ -213,12 +213,12 @@ public class TrackerSql implements ITracker, AutoCloseable {
         List<Item> allItems = new ArrayList<>();
         try (ResultSet resultSet = preparedStatement.getResultSet()) {
             while (resultSet.next()) {
-                String name = resultSet.getString(2);
-                Integer itemId = resultSet.getInt(1);
-                String descr = resultSet.getString(3);
-                Date itemDate = resultSet.getDate(4);
-                Integer categoryId = resultSet.getInt(5);
-                Integer itemUserId = resultSet.getInt(6);
+                String name = resultSet.getString("itemname");
+                Integer itemId = resultSet.getInt("id");
+                String descr = resultSet.getString("descr");
+                Date itemDate = resultSet.getDate("created");
+                Integer categoryId = resultSet.getInt("category_id");
+                Integer itemUserId = resultSet.getInt("itemuser_id");
                 Item oneOfItems = new Item(String.valueOf(itemId), name, descr, itemDate.toLocalDate(), categoryId, itemUserId);
                 log.debug("Find Item = {}", oneOfItems);
                 allItems.add(oneOfItems);
